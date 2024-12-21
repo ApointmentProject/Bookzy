@@ -8,7 +8,7 @@ export default function Navigation() {
             {/* LogIn Link */}
             <Link
                 to="/home"
-                className="text-sm md:text-sm font-semibold text-black"
+                className="text-sm md:text-sm font-semibold text-white"
             >
                 Login
             </Link>
@@ -16,7 +16,7 @@ export default function Navigation() {
             {/* SignUp Link */}
             <Link
                 to="/signup"
-                className="text-sm md:text-sm font-semibold text-black"
+                className="text-sm md:text-sm font-semibold text-white"
             >
                 Sign Up
             </Link>

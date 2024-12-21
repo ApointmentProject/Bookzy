@@ -10,9 +10,9 @@ export default function Header() {
                 <div className="flex items-center gap-3">
                     <Link
                         to="/"
-                        className="flex items-center gap-2 text-sm font-semibold hover:underline md:text-lg text-black"
+                        className="flex items-center gap-2 text-sm font-semibold hover:underline md:text-lg text-white"
                     >
-                        <IoIosCalendar className="text-2xl text-black" />
+                        <IoIosCalendar className="text-2xl text-white" />
                         <span>ScheduleSync</span>
                     </Link>
                 </div>
