@@ -7,19 +7,13 @@ export default function Navigation() {
         <nav className="flex items-center gap-6">
             {/* LogIn Link */}
             <Link
-                to="/home"
+                to="/login"
                 className="text-sm md:text-sm font-semibold text-white"
             >
                 Login
             </Link>
 
             {/* SignUp Link */}
-            <Link
-                to="/signup"
-                className="text-sm md:text-sm font-semibold text-white"
-            >
-                Sign Up
-            </Link>
 
         </nav>
     );
