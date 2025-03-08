@@ -1,18 +1,25 @@
 import { Link } from 'react-router-dom'
 import Navigation from '../navbar/Navigation';
 import { IoIosCalendar } from "react-icons/io";
+import { useTheme } from '../../context/ThemeContext';
 
 export default function Header() {
+    const { isDarkMode, toggleTheme } = useTheme();
     return (
         <header
-            className="fixed top-0 left-1/2 transform -translate-x-1/2 w-[95%] bg-white bg-opacity-20 backdrop-blur-lg rounded-b-full px-6 py-3 shadow-lg z-50 transition-colors duration-500 ease-in-out">
-            <div className="flex items-center justify-between">
+            className={`fixed top-0 left-1/2 transform -translate-x-1/2 -translate-y-5 w-[95%] px-6 py-4 shadow-lg z-50 
+    rounded-3xl backdrop-blur-lg transition-colors duration-500 ease-in-out 
+    ${isDarkMode ? "bg-gray-600 bg-opacity-40 text-white" : "bg-white bg-opacity-80 text-black"}`}
+        >
+
+            <div className="flex items-center justify-between pt-3">
                 <div className="flex items-center gap-3">
                     <Link
                         to="/"
-                        className="flex items-center gap-2 text-sm font-semibold hover:underline md:text-lg text-white"
+                        className={`flex items-center gap-2 text-sm font-semibold hover:underline md:text-lg transition-colors duration-300 
+                    ${isDarkMode ? "text-white" : "text-black"}`}
                     >
-                        <IoIosCalendar className="text-2xl text-white" />
+                        <IoIosCalendar className={`text-2xl transition-colors duration-300 ${isDarkMode ? "text-white" : "text-black"}`} />
                         <span>ScheduleSync</span>
                     </Link>
                 </div>
@@ -20,4 +27,5 @@ export default function Header() {
             </div>
         </header>
     );
+
 }
