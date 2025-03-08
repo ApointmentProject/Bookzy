@@ -19,7 +19,7 @@ export default function LogInInput({
     required,
     disabled,
 }: InputProps) {
-    const { isDarkMode } = useTheme(); // Obtener el estado del tema
+    const { isDarkMode } = useTheme(); 
 
     return (
         <div className="space-y-2">

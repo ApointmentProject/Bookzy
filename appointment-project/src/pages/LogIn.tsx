@@ -42,7 +42,7 @@ export default function LogIn() {
     };
 
     return (
-        <div className={`flex items-center justify-center min-h-screen p-6 relative transition-colors duration-500 ${isDarkMode ? "bg-black text-white" : "bg-white text-black"}`}>
+        <div className={`flex items-center justify-center min-h-screen p-6 relative transition-colors duration-500 ${isDarkMode ? "bg-main-dark-bg text-white" : "bg-main-light-bg text-black"}`}>
 
             {/* Ícono Home arriba a la izquierda */}
             <Link to="/" className={`absolute top-4 left-4 text-3xl md:text-4xl transition-colors duration-300 ${isDarkMode ? "text-white hover:text-gray-400" : "text-black hover:text-gray-600"}`}>
@@ -51,7 +51,7 @@ export default function LogIn() {
 
             <div
                 id="login-container"
-                className={`w-full max-w-md shadow-lg rounded-lg p-6 opacity-0 translate-y-5 transition-all duration-500 ease-out ${isDarkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-black"}`}
+                className={`w-full max-w-md shadow-lg rounded-lg p-6 opacity-0 translate-y-5 transition-all duration-500 ease-out ${isDarkMode ? "bg-secundary-dark-bg text-white" : "bg-secundary-light-bg text-black"}`}
             >
                 <h2 className="text-2xl font-bold text-center mb-2">Welcome back</h2>
                 <p className="text-gray-400 text-center mb-6">Sign in to your account to continue</p>
@@ -147,7 +147,7 @@ export default function LogIn() {
                     <div className="absolute inset-0 flex items-center">
                         <div className={`w-full border-t ${isDarkMode ? "border-gray-700" : "border-gray-300"}`}></div>
                     </div>
-                    <div className={`relative flex justify-center text-xs px-2 ${isDarkMode ? "text-gray-400 bg-gray-900" : "text-gray-600 bg-gray-100"}`}>
+                    <div className={`relative flex justify-center text-xs px-2 ${isDarkMode ? "text-gray-400 bg-secundary-dark-bg" : "text-gray-600 bg-secundary-light-bg"}`}>
                         Or continue with
                     </div>
                 </div>
