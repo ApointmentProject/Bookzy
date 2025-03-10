@@ -34,7 +34,7 @@ export default function LogInInput({
                 required={required}
                 disabled={disabled}
                 className={`w-full px-3 py-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-300
-                    ${isDarkMode ? "bg-gray-800 text-white border-gray-600 placeholder-gray-400" : "bg-gray-100 text-black border-gray-300 placeholder-gray-500"}`}
+                    ${isDarkMode ? "bg-main-dark-bg text-white border-gray-600 placeholder-gray-400" : "bg-gray-100 text-black border-gray-300 placeholder-gray-500"}`}
             />
         </div>
     );

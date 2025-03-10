@@ -1,6 +1,7 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import Navigation from '../navbar/Navigation';
 import { IoIosCalendar } from "react-icons/io";
+import { TbCalendar } from "react-icons/tb";
 import { useTheme } from '../../context/ThemeContext';
 
 export default function Header() {
@@ -19,13 +20,12 @@ export default function Header() {
                         className={`flex items-center gap-2 text-sm font-semibold hover:underline md:text-lg transition-colors duration-300 
                     ${isDarkMode ? "text-white" : "text-black"}`}
                     >
-                        <IoIosCalendar className={`text-2xl transition-colors duration-300 ${isDarkMode ? "text-white" : "text-black"}`} />
-                        <span>ScheduleSync</span>
+                        <TbCalendar className={`text-2xl transition-colors duration-300 ${isDarkMode ? "text-white" : "text-black"}`} />
+                        <span className="font-merriweather font-bold italic text-2xl">Bookzy</span>
                     </Link>
                 </div>
                 <Navigation />
             </div>
         </header>
     );
-
 }
