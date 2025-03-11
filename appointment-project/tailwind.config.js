@@ -1,7 +1,8 @@
 /** @type {import('tailwindcss').Config} */
+const withMT = require("@material-tailwind/react/utils/withMT");
 
-export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+module.exports = withMT({
+  content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
     extend: {
       fontFamily: {
@@ -14,9 +15,10 @@ export default {
         'main-dark-bg': '#181818',
         'secundary-dark-bg': '#262626',
         'main-light-bg': '#FFFFFF',
-        'secundary-light-bg': '#F1F1F1',
+        'secundary-light-bg': '#F9F9F9',
+        //'secundary-light-bg': '#F1F1F1',
       },
     },
   },
   plugins: [],
-};
+});
