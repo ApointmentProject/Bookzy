@@ -5,11 +5,11 @@ import Toggle from "../../components/toggle/Toggle";
 export default function PreferencesComponent() {
   const { isDarkMode, toggleTheme } = useTheme();
 
-  // Estado local para idioma y notificaciones
+  // Local state for language and notifications
   const [language, setLanguage] = useState("English");
   const [notifications, setNotifications] = useState(true);
 
-  // Función para "guardar" las preferencias 
+  // Function to "save" preferences
   const handleSavePreferences = () => {
     console.log({
       temaOscuro: isDarkMode,
@@ -28,47 +28,47 @@ export default function PreferencesComponent() {
     >
       <h2 className="text-xl font-bold mb-4">Preferencias</h2>
 
-      {/* Toggle para cambiar el modo oscuro */}
+      {/* Toggle to switch between dark mode */}
       <div className="mb-4 flex items-center justify-between">
         <span className="text-sm font-medium">Tema oscuro</span>
         <Toggle
-          label=""               
+          label=""
           initialState={isDarkMode}
-          onToggle={toggleTheme}  // Cambia el tema al hacer toggle
+          onToggle={toggleTheme} // Switches theme on toggle
           size="md"
         />
       </div>
 
-      {/* Select para cambiar el idioma */}
+      {/* Select to change language */}
       <div className="mb-4">
         <label className="block mb-1 text-sm font-medium">Idioma</label>
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
           className={`w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-300
-            ${isDarkMode
-              ? "bg-main-dark-bg text-white border-gray-600"
-              : "bg-gray-100 text-black border-gray-300"
+            ${
+              isDarkMode
+                ? "bg-main-dark-bg text-white border-gray-600"
+                : "bg-gray-100 text-black border-gray-300"
             }`}
         >
           <option value="Español">Español</option>
           <option value="Inglés">Inglés</option>
-
         </select>
       </div>
 
-      {/* Toggle para notificaciones */}
+      {/* Toggle for notifications */}
       <div className="mb-4 flex items-center justify-between">
         <span className="text-sm font-medium">Notificaciones</span>
         <Toggle
-          label=""                // No se mostrará texto extra
+          label="" // No extra text will be shown
           initialState={notifications}
           onToggle={setNotifications}
           size="md"
         />
       </div>
 
-      {/* Botón para guardar preferencias */}
+      {/* Button to save preferences */}
       <button
         type="button"
         onClick={handleSavePreferences}
