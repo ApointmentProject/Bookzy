@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useTheme } from "../../context/ThemeContext";
 import { Button, Avatar } from "@material-tailwind/react";
 import { HiOutlineRefresh } from "react-icons/hi";
