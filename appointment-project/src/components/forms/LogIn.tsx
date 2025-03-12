@@ -2,6 +2,8 @@ import LogInButton from "../buttons/LogInButton";
 import LogInInput from "../input/LogInInput";
 import { useNavigate } from "react-router-dom";
 
+import { signInWithGoogle } from "../../firebase/authService";
+
 interface LogInFormProps {
     email: string;
     password: string;
@@ -13,11 +15,14 @@ interface LogInFormProps {
 }
 
 export default function LogIn({ email, password, isLoading, error, onEmailChange, onPasswordChange, onSubmit }: LogInFormProps) {
+
+
     const navigate = useNavigate();
 
     function handleGoogleLogin() {
         // Implementar inicio de sesión con Google
-        navigate("/profile");
+        signInWithGoogle();
+        // navigate("/profile");
     }
 
     function handleInstagramLogin() {
@@ -104,8 +109,6 @@ export default function LogIn({ email, password, isLoading, error, onEmailChange
                     </svg>
                 </button>
             </div>
-
-
         </form>
     );
 }
