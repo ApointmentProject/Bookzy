@@ -4,7 +4,7 @@ import { useTheme } from "../context/ThemeContext";
 export default function Home() {
   const { isDarkMode } = useTheme();
   return (
-    <div className={`h-full w-full transition-colors duration-300 ${isDarkMode ? "bg-black text-white" : "bg-white text-black"}`}>
+    <div className={`h-full w-full pt-24 transition-colors duration-300 ${isDarkMode ? "bg-black text-white" : "bg-white text-black"}`}>
       <Header />
       <div className={`flex flex-col md:flex-row items-center justify-center h-screen w-full p-6 transition-colors duration-300 
           ${isDarkMode ? "bg-black" : "bg-lightPrimary"}`}>

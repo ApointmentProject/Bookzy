@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { TbHomeFilled } from "react-icons/tb";
 import LogIn from "../components/forms/LogIn";
 import RegisterBusiness from "../components/forms/RegisterBusiness";
@@ -8,7 +9,7 @@ import RegisterUser from "../components/forms/RegisterUser";
 import { useTheme } from "../context/ThemeContext";
 
 const AuthTabs: React.FC = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { isDarkMode } = useTheme();
 
   // Estados para el login y registros
@@ -35,7 +36,6 @@ const AuthTabs: React.FC = () => {
     try {
       // Simula una petición de login
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      navigate("/");
     } catch (err) {
       setError("Failed to sign in. Please check your credentials.");
     } finally {

@@ -1,5 +1,6 @@
 import LogInButton from "../buttons/LogInButton";
 import LogInInput from "../input/LogInInput";
+import { useNavigate } from "react-router-dom";
 
 interface LogInFormProps {
     email: string;
@@ -12,6 +13,20 @@ interface LogInFormProps {
 }
 
 export default function LogIn({ email, password, isLoading, error, onEmailChange, onPasswordChange, onSubmit }: LogInFormProps) {
+    const navigate = useNavigate();
+
+    function handleGoogleLogin() {
+        // Implementar inicio de sesión con Google
+        navigate("/profile");
+    }
+
+    function handleInstagramLogin() {
+        // Implementar inicio de sesión con Instagram
+        navigate("/profile");
+    }
+
+
+
     return (
         <form onSubmit={onSubmit} className="space-y-4">
             <LogInInput
@@ -37,7 +52,7 @@ export default function LogIn({ email, password, isLoading, error, onEmailChange
             <div className="flex justify-center space-x-4">
                 {/* Botón de Google */}
                 <button
-                    onClick={() => console.log("Google login")}
+                    onClick={() => handleGoogleLogin()}
                     className="relative flex items-center justify-center w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 backdrop-blur-sm hover:bg-black/10 dark:hover:bg-white/10 transition-all duration-300 focus:outline-none"
                     aria-label="Iniciar sesión con Google"
                 >
@@ -64,7 +79,7 @@ export default function LogIn({ email, password, isLoading, error, onEmailChange
 
                 {/* Botón de Instagram */}
                 <button
-                    onClick={() => console.log("Instagram login")}
+                    onClick={() => handleInstagramLogin()}
                     className="relative flex items-center justify-center w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 backdrop-blur-sm hover:bg-black/10 dark:hover:bg-white/10 transition-all duration-300 focus:outline-none"
                     aria-label="Iniciar sesión con Instagram"
                 >
