@@ -7,6 +7,7 @@ export default function RegisterUser() {
   return (
     <form className={`space-y-4 ${isDarkMode ? "text-white" : "text-gray-700"}`}>
       <LogInInput label="Full Name" type="text" placeholder="John Doe" />
+      <LogInInput label="Phone Number" type="tel" placeholder="Enter your phone number" />
       <LogInInput label="Email" type="email" placeholder="name@example.com" />
       <LogInInput label="Birthday" type="date" required />
       <LogInInput label="Cédula (ID)" type="text" placeholder="Enter your ID number" />
