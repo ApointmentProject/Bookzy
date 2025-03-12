@@ -1,4 +1,3 @@
-import React from "react"
 import Routing from "./Routing"
 import { ThemeProvider } from "./context/ThemeContext"
 

@@ -1,11 +1,10 @@
 import { Link } from 'react-router-dom';
 import Navigation from '../navbar/Navigation';
-import { IoIosCalendar } from "react-icons/io";
 import { TbCalendar } from "react-icons/tb";
 import { useTheme } from '../../context/ThemeContext';
 
 export default function Header() {
-    const { isDarkMode, toggleTheme } = useTheme();
+    const { isDarkMode } = useTheme();
     return (
         <header
             className={`fixed top-0 left-1/2 transform -translate-x-1/2 -translate-y-5 w-[95%] px-6 py-4 shadow-lg z-50 

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import {useState} from 'react'
 import { Link } from 'react-router-dom'
 import { CgDarkMode } from 'react-icons/cg';
 import { BiLogInCircle } from "react-icons/bi";

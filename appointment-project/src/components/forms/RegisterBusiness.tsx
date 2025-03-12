@@ -1,9 +1,9 @@
-import { useTheme } from "../../context/ThemeContext";
+// import { useTheme } from "../../context/ThemeContext";
 import LogInInput from "../input/LogInInput";
 import LogInButton from "../buttons/LogInButton";
 
 export default function RegisterBusiness() {
-  const { isDarkMode } = useTheme();
+  // const { isDarkMode } = useTheme();
   return (
     <form className="space-y-4 p-4">
       {/* Business Information */}

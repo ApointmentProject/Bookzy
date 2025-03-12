@@ -1,9 +1,8 @@
-import React,{useState} from "react";
 import Header from "../components/header/Header";
 import { useTheme } from "../context/ThemeContext";
 
 export default function Home() {
-  const { isDarkMode, toggleTheme } = useTheme();
+  const { isDarkMode } = useTheme();
   return (
     <div className={`h-full w-full transition-colors duration-300 ${isDarkMode ? "bg-black text-white" : "bg-white text-black"}`}>
       <Header />

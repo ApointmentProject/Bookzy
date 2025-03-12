@@ -1,6 +1,5 @@
 import LogInButton from "../buttons/LogInButton";
 import LogInInput from "../input/LogInInput";
-import { AiOutlineGoogle, AiFillInstagram } from "react-icons/ai";
 
 interface LogInFormProps {
     email: string;

@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { AiOutlineGoogle, AiFillInstagram } from "react-icons/ai";
 import { TbHomeFilled } from "react-icons/tb";
 import LogIn from "../components/forms/LogIn";
 import RegisterBusiness from "../components/forms/RegisterBusiness";
 import RegisterUser from "../components/forms/RegisterUser";
 
-import LogInButton from "../components/buttons/LogInButton";
 import { useTheme } from "../context/ThemeContext";
 
 const AuthTabs: React.FC = () => {
