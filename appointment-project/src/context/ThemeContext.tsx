@@ -26,7 +26,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
     if (isDarkMode) {
       document.documentElement.classList.add("dark");
-      document.documentElement.style.backgroundColor = "#000"; // Asegura el fondo
+      document.documentElement.style.backgroundColor = "#181818"; 
     } else {
       document.documentElement.classList.remove("dark");
       document.documentElement.style.backgroundColor = "#fff";

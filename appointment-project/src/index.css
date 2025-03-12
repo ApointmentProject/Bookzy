@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 html, body {
-    @apply transition-colors duration-500;
+    @apply transition-colors duration-500 bg-main-dark-bg;
 }
