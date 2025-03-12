@@ -13,7 +13,7 @@ export default function Partnerships() {
 
     return (
         <section
-            className={`w-full py-12 transition-colors duration-300 ${isDarkMode ? "bg-gray-900 text-white" : "bg-gray-50 text-gray-800"
+            className={`w-full py-12 transition-colors duration-300 ${isDarkMode ? "bg-main-dark-bg text-white" : "bg-main-light-bg text-gray-800"
                 }`}
         >
             <div className="container mx-auto px-4">
