@@ -45,25 +45,22 @@ const AuthTabs: React.FC = () => {
 
   return (
     <div
-      className={`flex items-center justify-center min-h-screen p-6 relative transition-colors duration-500 ${
-        isDarkMode ? "bg-main-dark-bg text-white" : "bg-main-light-bg text-black"
-      }`}
+      className={`flex items-center justify-center min-h-screen p-6 relative transition-colors duration-500 ${isDarkMode ? "bg-main-dark-bg text-white" : "bg-main-light-bg text-black"
+        }`}
     >
       {/* Ícono Home en la esquina superior izquierda */}
       <Link
         to="/"
-        className={`absolute top-4 left-4 text-3xl md:text-4xl transition-colors duration-300 ${
-          isDarkMode ? "text-white hover:text-gray-400" : "text-black hover:text-gray-600"
-        }`}
+        className={`absolute top-4 left-4 text-3xl md:text-4xl transition-colors duration-300 ${isDarkMode ? "text-white hover:text-gray-400" : "text-black hover:text-gray-600"
+          }`}
       >
         <TbHomeFilled />
       </Link>
 
       <div
         id="login-container"
-        className={`w-full max-w-md shadow-lg rounded-lg p-6 opacity-0 translate-y-5 transition-all duration-500 ease-out ${
-          isDarkMode ? "bg-secundary-dark-bg text-white" : "bg-secundary-light-bg text-black"
-        }`}
+        className={`w-full max-w-md shadow-lg rounded-lg p-6 opacity-0 translate-y-5 transition-all duration-500 ease-out mt-16 ${isDarkMode ? "bg-secundary-dark-bg text-white" : "bg-secundary-light-bg text-black"
+          }`}
       >
         <h2 className="text-2xl font-bold text-center mb-2">Welcome back</h2>
         <p className="text-gray-400 text-center mb-6">Sign in to your account to continue</p>
@@ -71,37 +68,34 @@ const AuthTabs: React.FC = () => {
         {/* Tabs para cambiar entre Login, Register y Business */}
         <div className={`flex mb-4 border-b ${isDarkMode ? "border-gray-700" : "border-gray-300"}`}>
           <button
-            className={`w-1/3 py-2 text-center transition-all duration-300 ${
-              tab === "login"
+            className={`w-1/3 py-2 text-center transition-all duration-300 ${tab === "login"
                 ? "border-b-2 border-indigo-500"
                 : isDarkMode
-                ? "text-gray-400 hover:text-gray-200"
-                : "text-gray-600 hover:text-gray-800"
-            }`}
+                  ? "text-gray-400 hover:text-gray-200"
+                  : "text-gray-600 hover:text-gray-800"
+              }`}
             onClick={() => setTab("login")}
           >
             Login
           </button>
           <button
-            className={`w-1/3 py-2 text-center transition-all duration-300 ${
-              tab === "register"
+            className={`w-1/3 py-2 text-center transition-all duration-300 ${tab === "register"
                 ? "border-b-2 border-indigo-500"
                 : isDarkMode
-                ? "text-gray-400 hover:text-gray-200"
-                : "text-gray-600 hover:text-gray-800"
-            }`}
+                  ? "text-gray-400 hover:text-gray-200"
+                  : "text-gray-600 hover:text-gray-800"
+              }`}
             onClick={() => setTab("register")}
           >
             Register
           </button>
           <button
-            className={`w-1/3 py-2 text-center transition-all duration-300 ${
-              tab === "business"
+            className={`w-1/3 py-2 text-center transition-all duration-300 ${tab === "business"
                 ? "border-b-2 border-indigo-500"
                 : isDarkMode
-                ? "text-gray-400 hover:text-gray-200"
-                : "text-gray-600 hover:text-gray-800"
-            }`}
+                  ? "text-gray-400 hover:text-gray-200"
+                  : "text-gray-600 hover:text-gray-800"
+              }`}
             onClick={() => setTab("business")}
           >
             Business
