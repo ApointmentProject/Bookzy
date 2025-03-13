@@ -43,7 +43,7 @@ export default function RegisterBusiness() {
       <h3 className={`text-lg font-medium ${isDarkMode ? "text-white" : "text-black"}`}>
         Social Media Information
       </h3>
-      <div className="flex w-full space-x-2">
+      <div className="flex flex-col sm:flex-row w-full space-y-2 sm:space-y-0 sm:space-x-2">
         <Button 
           variant="outlined" 
           onClick={() => setActiveSocial("instagram")} 
