@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useTheme } from "../../context/ThemeContext";
+import { Button, Input } from "@material-tailwind/react";
 
 export default function SecurityComponent() {
   const { isDarkMode } = useTheme();
@@ -9,7 +10,7 @@ export default function SecurityComponent() {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleChangePassword = () => {
-    // Basic validation: check if all fields are filled
+    // Check if all fields are filled
     if (!currentPassword || !newPassword || !confirmPassword) {
       alert("Please fill in all fields.");
       return;
@@ -19,11 +20,10 @@ export default function SecurityComponent() {
       alert("New passwords do not match.");
       return;
     }
-    // Here you could add logic to actually update the password (API call, etc.)
     console.log({
       currentPassword,
       newPassword,
-      confirmPassword
+      confirmPassword,
     });
     alert("Password updated successfully!");
   };
@@ -40,69 +40,53 @@ export default function SecurityComponent() {
 
       {/* Current password */}
       <div className="mb-4">
-        <label className="block mb-1 text-sm font-medium">
-          Current Password
-        </label>
-        <input
+        <Input
           type="password"
+          label="Current Password"
           value={currentPassword}
           onChange={(e) => setCurrentPassword(e.target.value)}
-          className={`w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-300
-            ${
-              isDarkMode
-                ? "bg-main-dark-bg text-white border-gray-600"
-                : "bg-gray-100 text-black border-gray-300"
-            }
-          `}
+          required
+          crossOrigin=""
         />
       </div>
 
       {/* New password */}
       <div className="mb-4">
-        <label className="block mb-1 text-sm font-medium">
-          New Password
-        </label>
-        <input
+        <Input
           type="password"
+          label="New Password"
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
-          className={`w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-300
-            ${
-              isDarkMode
-                ? "bg-main-dark-bg text-white border-gray-600"
-                : "bg-gray-100 text-black border-gray-300"
-            }
-          `}
+          required
+          crossOrigin=""
         />
       </div>
 
       {/* Confirm new password */}
       <div className="mb-4">
-        <label className="block mb-1 text-sm font-medium">
-          Confirm New Password
-        </label>
-        <input
+        <Input
           type="password"
+          label="Confirm New Password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-          className={`w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-300
-            ${
-              isDarkMode
-                ? "bg-main-dark-bg text-white border-gray-600"
-                : "bg-gray-100 text-black border-gray-300"
-            }
-          `}
+          required
+          crossOrigin=""
         />
       </div>
 
-      {/* Update password button */}
-      <button
-        type="button"
+      {/* Update password button (outlined) */}
+      <Button
+        variant="outlined"
+        fullWidth
         onClick={handleChangePassword}
-        className="bg-indigo-600 text-white py-2 px-4 rounded w-full hover:bg-indigo-700 transition-colors"
+        className={`flex items-center justify-center gap-2 py-2 px-4 mt-4 ${
+          isDarkMode
+            ? "border-gray-600 text-white hover:bg-gray-600"
+            : "border-gray-300 text-black hover:bg-gray-200"
+        } `}
       >
         Update Password
-      </button>
+      </Button>
     </div>
   );
 }

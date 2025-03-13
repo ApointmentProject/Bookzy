@@ -82,7 +82,7 @@ export default function UserProfile() {
           </TabsHeader>
 
           {/* Tabs body shows the full content without internal scrolling */}
-          <TabsBody className="p-4">
+          <TabsBody className="p-4 transition-all">
             {data.map(({ value, component }) => (
               <TabPanel key={value} value={value}>
                 {component}

@@ -1,42 +1,100 @@
 import { useTheme } from "../../context/ThemeContext";
-import LogInInput from "../input/LogInInput";
-import LogInButton from "../buttons/LogInButton";
+import { Input, Select, Option, Popover, PopoverHandler, PopoverContent, Button } from "@material-tailwind/react";
+import { DayPicker } from "react-day-picker";
+import 'react-day-picker/dist/style.css';
+import { useState } from "react";
+import { format } from "date-fns";
 
 export default function RegisterUser() {
   const { isDarkMode } = useTheme();
+  const inputColor = isDarkMode ? "white" : "blue";
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+
   return (
-    <form className={`space-y-4 ${isDarkMode ? "text-white" : "text-gray-700"}`}>
-      <LogInInput label="Full Name" type="text" placeholder="John Doe" />
-      <LogInInput label="Phone Number" type="tel" placeholder="Enter your phone number" />
-      <LogInInput label="Email" type="email" placeholder="name@example.com" />
-      <LogInInput label="Birthday" type="date" required />
-      <LogInInput label="Cédula (ID)" type="text" placeholder="Enter your ID number" />
+    <form className={`space-y-6 ${isDarkMode ? "text-white" : "text-gray-700"}`}>
+      <Input
+        color={inputColor}
+        label="Full Name"
+        type="text"
+        placeholder="John Doe"
+        required crossOrigin={undefined}
+      />
 
-      {/* Dropdown para género */}
-      <div className="space-y-2">
-        <label className="block">Gender</label>
-        <select
-          defaultValue=""
-          className={`w-full px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 
-          ${isDarkMode ? "bg-gray-800 border border-gray-600" : "bg-gray-100 border border-gray-300"}`}
-          required
-        >
-          <option value="" disabled>
-            Select your gender
-          </option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="other">Other</option>
-          <option value="prefer-not-to-say">Prefer not to say</option>
-        </select>
-      </div>
+      <Input
+        color={inputColor}
+        label="Phone Number"
+        type="tel"
+        placeholder="Enter your phone number"
+        required crossOrigin={undefined}
+      />
 
-      <LogInInput label="Password" type="password" required />
-      <LogInInput label="Confirm Password" type="password" required />
+      <Input
+        color={inputColor}
+        label="Email"
+        type="email"
+        placeholder="name@example.com"
+        required crossOrigin={undefined}
+      />
 
-      <LogInButton type="submit" fullWidth>
+      {/* Date Picker integrated in an Input */}
+      <Popover placement="bottom-start">
+        <PopoverHandler>
+          <Input
+            label="Date of Birth"
+            value={selectedDate ? format(selectedDate, "dd/MM/yyyy") : ""}
+            readOnly
+            className="cursor-pointer"
+            color={inputColor} crossOrigin={undefined}
+          />
+        </PopoverHandler>
+        <PopoverContent className={`p-2 rounded-md shadow-lg ${isDarkMode ? "bg-gray-800 text-white" : "bg-white text-gray-700"}`}>
+          <DayPicker
+            mode="single"
+            selected={selectedDate}
+            onSelect={(date) => setSelectedDate(date)}
+            className="border-none"
+          />
+        </PopoverContent>
+      </Popover>
+
+      <Input
+        color={inputColor}
+        label="ID Card"
+        type="text"
+        required crossOrigin={undefined}
+      />
+
+      <Select
+        label="Gender"
+        color={isDarkMode ? "blue-gray" : "blue"}
+        className="min-w-full"
+      >
+        <Option value="male">Male</Option>
+        <Option value="female">Female</Option>
+        <Option value="other">Other</Option>
+        <Option value="prefer-not-to-say">Prefer not to say</Option>
+      </Select>
+
+      <Input
+        color={inputColor}
+        label="Password"
+        type="password"
+        required crossOrigin={undefined}
+      />
+
+      <Input
+        color={inputColor}
+        label="Confirm Password"
+        type="password"
+        required crossOrigin={undefined}
+      />
+
+      <Button
+        fullWidth
+        className="flex items-center justify-center gap-2 py-3 px-4 mt-4 bg-indigo-600 hover:bg-indigo-700"
+      >
         Create Account
-      </LogInButton>
+      </Button>
     </form>
   );
 }

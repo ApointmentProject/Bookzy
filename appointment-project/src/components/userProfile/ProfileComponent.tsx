@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTheme } from "../../context/ThemeContext";
-import { Button, Avatar } from "@material-tailwind/react";
+import { Button, Avatar, IconButton } from "@material-tailwind/react";
 import { HiOutlineRefresh } from "react-icons/hi";
 import { IoIosLogOut } from "react-icons/io";
 
@@ -40,10 +40,10 @@ export default function ProfileComponent() {
           : "bg-secundary-light-bg text-black"
       }`}
     >
-      {/* Logout icon in top-right corner */}
-      <IoIosLogOut
-        className="absolute top-4 right-4 h-6 w-6 text-red-500 cursor-pointer"
-      />
+      {/* Logout icon in top-right corner using IconButton */}
+      <IconButton variant="text" className="absolute top-4 right-4 text-red-500">
+        <IoIosLogOut className="h-6 w-6" />
+      </IconButton>
 
       {/* Main profile info section */}
       <div className="flex flex-col items-center">
@@ -104,7 +104,11 @@ export default function ProfileComponent() {
           variant="outlined"
           fullWidth
           onClick={handleRefreshAccounts}
-          className="flex items-center justify-center gap-2 py-2 px-4 mt-4"
+          className={`flex items-center justify-center gap-2 py-2 px-4 mt-4 ${
+            isDarkMode
+              ? "border-gray-600 text-white hover:bg-gray-600"
+              : "border-gray-300 text-black hover:bg-gray-200"
+          } `}
         >
           Switch Account
           <HiOutlineRefresh className="h-5 w-5" />
@@ -115,18 +119,12 @@ export default function ProfileComponent() {
       <div className="mt-4">
         <h3 className="text-md font-semibold mb-3">Account Management</h3>
         <div className="flex gap-3">
-          {/* Deactivate (outlined, yellow hover) */}
+          {/* Deactivate (outlined, amber hover) */}
           <Button
             variant="outlined"
             fullWidth
             onClick={handleDeactivateAccount}
-            className="
-              flex-1
-              hover:border-yellow-500
-              hover:bg-yellow-500
-              hover:text-white
-              transition-colors
-            "
+            className="flex-1 border border-indigo-600 text-indigo-600 hover:bg-indigo-600 hover:text-white transition-colors"
           >
             Deactivate
           </Button>
@@ -135,13 +133,7 @@ export default function ProfileComponent() {
             variant="outlined"
             fullWidth
             onClick={handleDeleteAccount}
-            className="
-              flex-1
-              hover:border-red-500
-              hover:bg-red-500
-              hover:text-white
-              transition-colors
-            "
+            className="flex-1 border border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition-colors"
           >
             Delete
           </Button>

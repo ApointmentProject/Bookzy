@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTheme } from "../../context/ThemeContext";
 import Toggle from "../../components/toggle/Toggle";
+import { Button } from "@material-tailwind/react";
 
 export default function PreferencesComponent() {
   const { isDarkMode, toggleTheme } = useTheme();
@@ -34,7 +35,7 @@ export default function PreferencesComponent() {
         <Toggle
           label=""
           initialState={isDarkMode}
-          onToggle={toggleTheme} // Switches theme on toggle
+          onToggle={toggleTheme}
           size="md"
         />
       </div>
@@ -68,14 +69,18 @@ export default function PreferencesComponent() {
         />
       </div>
 
-      {/* Button to save preferences */}
-      <button
-        type="button"
+      <Button
+        variant="outlined"
+        fullWidth
         onClick={handleSavePreferences}
-        className="bg-indigo-600 text-white py-2 px-4 rounded w-full hover:bg-indigo-700 transition-colors"
+        className={`flex items-center justify-center gap-2 py-2 px-4 mt-4 ${
+          isDarkMode
+            ? "border-gray-600 text-white hover:bg-gray-600"
+            : "border-gray-300 text-black hover:bg-gray-200"
+        } `}
       >
         Guardar preferencias
-      </button>
+      </Button>
     </div>
   );
 }

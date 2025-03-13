@@ -2,6 +2,7 @@ import {useState} from 'react'
 import { Link } from 'react-router-dom'
 import { CgDarkMode } from 'react-icons/cg';
 import { BiLogInCircle } from "react-icons/bi";
+import { IoIosSettings } from "react-icons/io";
 
 import { useTheme } from '../../context/ThemeContext';
 
@@ -23,6 +24,13 @@ export default function Navigation() {
                 className={`text-sm md:text-sm font-semibold transition-colors duration-300 ${isDarkMode ? "text-white hover:text-gray-300" : "text-black hover:text-gray-700"}`}
             >
                 <BiLogInCircle className="h-5 w-5 sm:h-4 sm:w-4 md:h-6 md:w-6 lg:h-6 lg:w-6" />
+            </Link>
+            {/* Settings Link */}
+            <Link
+                to="/profile"
+                className={`text-sm md:text-sm font-semibold transition-colors duration-300 ${isDarkMode ? "text-white hover:text-gray-300" : "text-black hover:text-gray-700"}`}
+            >
+                <IoIosSettings className="h-5 w-5 sm:h-4 sm:w-4 md:h-6 md:w-6 lg:h-6 lg:w-6" />
             </Link>
 
             {/* SignUp Link */}
