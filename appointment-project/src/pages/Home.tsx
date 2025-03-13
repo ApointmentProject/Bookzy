@@ -1,6 +1,7 @@
 import Header from "../components/header/Header";
 import FeatureSection from "../components/features/FeatureSection";
 import Partnerships from "../components/marquee/Partnerships";
+import Footer from "../components/footer/Footer";
 
 import { useTheme } from "../context/ThemeContext";
 
@@ -64,6 +65,8 @@ export default function Home() {
       <div>
         <Partnerships />
       </div>
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }

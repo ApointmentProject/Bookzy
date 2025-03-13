@@ -16,6 +16,7 @@ module.exports = withMT({
         'secundary-dark-bg': '#262626',
         'main-light-bg': '#FFFFFF',
         'secundary-light-bg': '#F9F9F9',
+        'primary-indigo': '#3949AB',
         //'secundary-light-bg': '#F1F1F1',
       },
     },
