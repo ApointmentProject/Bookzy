@@ -6,6 +6,9 @@ import { format } from "date-fns";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { UserRegistrationFormData, userRegistrationSchema } from "../../validations/validateUserRegistration.ts";
+import { usePostData } from "../../hooks/useApi.ts";
+import UserType from "../../types/User.ts";
+import UserRoutes from "../../constants/routes/user.routes.ts";
 
 export default function RegisterUser() {
     const { isDarkMode } = useTheme();
@@ -18,13 +21,32 @@ export default function RegisterUser() {
         shouldUseNativeValidation: false
     });
 
-    const submitForm = (data: UserRegistrationFormData) => {
-        console.log("Form Data:", data);
-        console.log(errors);
+    const postUser = usePostData<UserType>(UserRoutes.baseUrl);
+    const submitUserRegistrationForm = async (data: UserRegistrationFormData) => {
+        try {
+            console.log("Form Data:", data);
+
+            const formattedData = {
+                first_name: data.firstName,
+                last_name: data.lastName,
+                email: data.email,
+                phone_number: data.phoneNumber,
+                birthday: new Date(data.dateOfBirth),
+                id_number: data.idCard,
+                gender: data.gender as "Male" | "Female" | "Other" | "Prefer not to say",
+                password_hash: data.password
+            };
+
+            await postUser.mutateAsync(formattedData);
+            alert("Usuario registrado exitosamente");
+        } catch (error) {
+            console.error("Error al registrar usuario:", error);
+            alert("Ocurrió un error al registrar el usuario.");
+        }
     };
 
     return (
-        <form className={`space-y-6 ${isDarkMode ? "text-white" : "text-gray-700"}`} onSubmit={handleSubmit(submitForm)}>
+        <form className={`space-y-6 ${isDarkMode ? "text-white" : "text-gray-700"}`} onSubmit={handleSubmit(submitUserRegistrationForm)}>
             <div>
                 <Input {...register("firstName")} color={inputColor} label="First Name" type="text" crossOrigin={undefined}/>
                 <p className="text-red-500 text-sm mt-2">{errors.firstName?.message}</p>
@@ -78,10 +100,10 @@ export default function RegisterUser() {
                     control={control}
                     render={({ field }) => (
                         <Select label="Gender" color={isDarkMode ? "blue-gray" : "blue"} className="min-w-full" value={field.value} onChange={(e) => field.onChange(e)}>
-                            <Option value="male">Male</Option>
-                            <Option value="female">Female</Option>
-                            <Option value="other">Other</Option>
-                            <Option value="prefer-not-to-say">Prefer not to say</Option>
+                            <Option value="Male">Male</Option>
+                            <Option value="Female">Female</Option>
+                            <Option value="Other">Other</Option>
+                            <Option value="Prefer-not-to-say">Prefer not to say</Option>
                         </Select>
                     )}
                 />

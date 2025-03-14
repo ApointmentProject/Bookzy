@@ -13,7 +13,7 @@ export type UserRegistrationFormData = {
 };
 
 const phoneNumberRegex = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
-const idCardRegex = /^\d{12}$/;
+const idCardRegex = /^\d{9,12}$/;
 
 export const userRegistrationSchema = yup.object().shape({
     firstName: yup.string()
