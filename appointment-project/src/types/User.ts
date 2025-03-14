@@ -1,4 +1,4 @@
-interface UserType {
+export interface UserType {
     id?: number;
     first_name: string;
     last_name: string;
@@ -11,4 +11,7 @@ interface UserType {
     created_at?: Date;
 }
 
-export default UserType;
+export interface UserPasswordValidationType {
+    email: string;
+    password: string;
+};

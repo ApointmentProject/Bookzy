@@ -2,8 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { Input, Button } from "@material-tailwind/react";
 import { useTheme } from "../../context/ThemeContext";
 import { IoIosMail, IoIosLock } from "react-icons/io";
-
 import { signInWithGoogle } from "../../firebase/authService";
+import { useValidatePassword } from "../../hooks/useApi.ts";
 
 interface LogInFormProps {
   email: string;
@@ -22,7 +22,6 @@ export default function LogIn({
   error,
   onEmailChange,
   onPasswordChange,
-  onSubmit,
 }: LogInFormProps) {
   const navigate = useNavigate();
 
@@ -39,8 +38,30 @@ export default function LogIn({
 
   const { isDarkMode } = useTheme();
 
+  const { mutate } = useValidatePassword();
+  const submitLogInForm = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    console.log(email, password);
+    mutate({ email, password }, {
+      onSuccess: (data) => {
+        if (data.passwordMatch) {
+          alert("Login exitoso!");
+          navigate("/profile");
+        } else {
+          alert("Contraseña incorrecta");
+        }
+      },
+      onError: (error) => {
+        console.error("Error al iniciar sesión:", error);
+        alert("Error al validar credenciales");
+      }
+    });
+  };
+
+
   return (
-    <form onSubmit={onSubmit} className="space-y-6">
+    <form onSubmit={submitLogInForm} className="space-y-6">
       <Input
         color={isDarkMode ? "white" : "blue"}
         label="Email"
@@ -67,7 +88,8 @@ export default function LogIn({
 
       <Button
         fullWidth
-        className="flex items-center justify-center gap-2 py-3 px-4 mt-4  hover:bg-indigo-700 bg-indigo-600 ${"
+        className="flex items-center justify-center gap-2 py-3 px-4 mt-4  hover:bg-indigo-700 bg-indigo-600"
+        type="submit"
       >
         {isLoading ? "Signing in..." : "Sign in"}
       </Button>
@@ -115,7 +137,7 @@ export default function LogIn({
           >
             <path
               fill="currentColor"
-              d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9 
+              d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9
            114.9-51.3 114.9-114.9S287.7 141 224.1 141zm0 190.7c-41.9 0-75.8-33.9-75.8-75.8s33.9-75.8 
            75.8-75.8 75.8 33.9 75.8 75.8-33.9 75.8-75.8 75.8zm146.4-194.3c0 14.9-12 26.9-26.9 26.9-14.9 0-26.9-12-26.9-26.9s12-26.9 
            26.9-26.9c14.9 0 26.9 12 26.9 26.9zM398.8 80c-15.7-15.7-36.5-24.3-58.7-24.3H107.9C85.7 55.7 64.9 64.3 49.2 80 33.5 95.7 

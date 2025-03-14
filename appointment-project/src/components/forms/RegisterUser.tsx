@@ -7,7 +7,7 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { UserRegistrationFormData, userRegistrationSchema } from "../../validations/validateUserRegistration.ts";
 import { usePostData } from "../../hooks/useApi.ts";
-import UserType from "../../types/User.ts";
+import { UserType } from "../../types/User.ts";
 import UserRoutes from "../../constants/routes/user.routes.ts";
 
 export default function RegisterUser() {
