@@ -3,7 +3,7 @@ import { Input, Button } from "@material-tailwind/react";
 import { useTheme } from "../../context/ThemeContext";
 import { IoIosMail, IoIosLock } from "react-icons/io";
 import { signInWithGoogle } from "../../firebase/authService";
-import { useValidatePassword } from "../../hooks/useApi.ts";
+import { useValidatePassword } from "../../hooks/user/useValidatePassword.ts";
 
 interface LogInFormProps {
   email: string;
@@ -39,26 +39,10 @@ export default function LogIn({
   const { isDarkMode } = useTheme();
 
   const { mutate } = useValidatePassword();
-  const submitLogInForm = async (e: React.FormEvent) => {
+  const submitLogInForm = (e: React.FormEvent) => {
     e.preventDefault();
-
-    console.log(email, password);
-    mutate({ email, password }, {
-      onSuccess: (data) => {
-        if (data.passwordMatch) {
-          alert("Login exitoso!");
-          navigate("/profile");
-        } else {
-          alert("Contraseña incorrecta");
-        }
-      },
-      onError: (error) => {
-        console.error("Error al iniciar sesión:", error);
-        alert("Error al validar credenciales");
-      }
-    });
+    mutate({ email, password });
   };
-
 
   return (
     <form onSubmit={submitLogInForm} className="space-y-6">

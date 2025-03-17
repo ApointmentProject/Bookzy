@@ -6,9 +6,7 @@ import { format } from "date-fns";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { UserRegistrationFormData, userRegistrationSchema } from "../../validations/validateUserRegistration.ts";
-import { usePostData } from "../../hooks/useApi.ts";
-import { UserType } from "../../types/User.ts";
-import UserRoutes from "../../constants/routes/user.routes.ts";
+import { useCreateUser } from "../../hooks/user/useCreateUser.ts";
 
 export default function RegisterUser() {
     const { isDarkMode } = useTheme();
@@ -21,24 +19,11 @@ export default function RegisterUser() {
         shouldUseNativeValidation: false
     });
 
-    const postUser = usePostData<UserType>(UserRoutes.baseUrl);
+    const { mutate } = useCreateUser();
     const submitUserRegistrationForm = async (data: UserRegistrationFormData) => {
         try {
             console.log("Form Data:", data);
-
-            const formattedData = {
-                first_name: data.firstName,
-                last_name: data.lastName,
-                email: data.email,
-                phone_number: data.phoneNumber,
-                birthday: new Date(data.dateOfBirth),
-                id_number: data.idCard,
-                gender: data.gender as "Male" | "Female" | "Other" | "Prefer not to say",
-                password_hash: data.password
-            };
-
-            await postUser.mutateAsync(formattedData);
-            alert("Usuario registrado exitosamente");
+            mutate(data);
         } catch (error) {
             console.error("Error al registrar usuario:", error);
             alert("Ocurrió un error al registrar el usuario.");

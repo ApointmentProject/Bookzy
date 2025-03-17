@@ -1,6 +1,5 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiClient } from "../api/apiClient.ts";
-import { UserPasswordValidationType} from "../types/User.ts";
 
 export const useGetData = <T>(key: string, url: string) => {
     return useQuery<T>({
@@ -34,15 +33,6 @@ export const useDeleteData = <T>(url: string) => {
     return useMutation<T, Error, void>({
         mutationFn: async () => {
             const response = await apiClient.delete(url);
-            return response.data;
-        },
-    });
-};
-
-export const useValidatePassword = () => {
-    return useMutation<{ passwordMatch: boolean }, Error, UserPasswordValidationType>({
-        mutationFn: async (data) => {
-            const response = await apiClient.post<{ passwordMatch: boolean }>("/user/validatePassword", data);
             return response.data;
         },
     });
