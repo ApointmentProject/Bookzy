@@ -3,5 +3,6 @@
 @tailwind utilities;
 
 html, body {
+    @apply font-inter;
     @apply transition-colors duration-500 bg-main-dark-bg;
 }

@@ -123,9 +123,10 @@ export default function AditionalInformation() {
                   value={field.value || ""}
                   onChange={(e) => field.onChange(e)}
                 >
-                  <Option value="masculino">Masculino</Option>
-                  <Option value="femenino">Femenino</Option>
-                  <Option value="otro">Otro</Option>
+                  <Option value="Male">Masculino</Option>
+                  <Option value="Female">Femenino</Option>
+                  <Option value="Other">Otro</Option>
+                  <Option value="Prefer not to say">Prefiero no responder</Option>
                 </Select>
               )}
             />
