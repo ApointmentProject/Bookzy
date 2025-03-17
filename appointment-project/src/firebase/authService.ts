@@ -1,7 +1,6 @@
 
 import { auth } from "./firebase"
-import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
-
+import { GoogleAuthProvider,signInWithPopup, signOut} from "firebase/auth";
 interface ProviderData {
     providerId: string;
     uid: string;
@@ -42,6 +41,7 @@ export async function signInWithGoogle() {
         console.error("Error al iniciar sesión con Google:", error);
     }
 }
+
 
 export async function logout() {
     try {

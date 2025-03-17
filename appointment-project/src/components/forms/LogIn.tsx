@@ -31,10 +31,6 @@ export default function LogIn({
     // navigate("/profile");
   }
 
-  function handleInstagramLogin() {
-    // Implementar inicio de sesión con Instagram
-    navigate("/profile");
-  }
 
   const { isDarkMode } = useTheme();
 
@@ -118,33 +114,6 @@ export default function LogIn({
             <path
               d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
               fill="#EA4335"
-            />
-          </svg>
-        </button>
-
-        {/* Botón de Instagram */}
-        <button
-          onClick={() => handleInstagramLogin()}
-          className="relative flex items-center justify-center w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 backdrop-blur-sm hover:bg-black/10 dark:hover:bg-white/10 transition-all duration-300 focus:outline-none"
-          aria-label="Iniciar sesión con Instagram"
-        >
-          <span className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent to-transparent hover:from-purple-500/20 hover:to-pink-500/20 transition-all duration-300" />
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 448 512"
-            className="w-5 h-5 text-pink-500"
-            aria-hidden="true"
-          >
-            <path
-              fill="currentColor"
-              d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9
-           114.9-51.3 114.9-114.9S287.7 141 224.1 141zm0 190.7c-41.9 0-75.8-33.9-75.8-75.8s33.9-75.8 
-           75.8-75.8 75.8 33.9 75.8 75.8-33.9 75.8-75.8 75.8zm146.4-194.3c0 14.9-12 26.9-26.9 26.9-14.9 0-26.9-12-26.9-26.9s12-26.9 
-           26.9-26.9c14.9 0 26.9 12 26.9 26.9zM398.8 80c-15.7-15.7-36.5-24.3-58.7-24.3H107.9C85.7 55.7 64.9 64.3 49.2 80 33.5 95.7 
-           24.9 116.5 24.9 138.7v222.5c0 22.2 8.6 43 24.3 58.7 15.7 15.7 36.5 24.3 58.7 24.3h232.2c22.2 0 43-8.6 
-           58.7-24.3 15.7-15.7 24.3-36.5 24.3-58.7V138.7c0-22.2-8.6-43-24.3-58.7zM398.8 373c0 13.2-5.2 25.8-14.9 
-           35.5-9.7 9.7-22.3 14.9-35.5 14.9H107.9c-13.2 0-25.8-5.2-35.5-14.9-9.7-9.7-14.9-22.3-14.9-35.5V138.7c0-13.2 
-           5.2-25.8 14.9-35.5 9.7-9.7 22.3-14.9 35.5-14.9h232.2c13.2 0 25.8 5.2 35.5 14.9 9.7 9.7 14.9 22.3 14.9 35.5V373z"
             />
           </svg>
         </button>
