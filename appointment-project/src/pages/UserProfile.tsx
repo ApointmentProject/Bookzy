@@ -8,11 +8,10 @@ import {
   TabPanel,
 } from "@material-tailwind/react";
 import { HiAdjustments, HiLockClosed, HiOutlineUser } from "react-icons/hi";
-
-// Import your actual components
 import ProfileComponent from "../components/userProfile/ProfileComponent";
 import SecurityComponent from "../components/userProfile/SecurityComponent";
 import PreferencesComponent from "../components/userProfile/PreferencesComponent";
+import Header from "../components/header/Header.tsx";
 
 export default function UserProfile() {
   const { isDarkMode } = useTheme();
@@ -44,6 +43,7 @@ export default function UserProfile() {
         isDarkMode ? "bg-main-dark-bg text-white" : "bg-white text-black"
       }`}
     >
+        <Header />
       <div className="w-full max-w-md mx-auto md:mt-[15vh] mt-[10vh]">
         <Tabs
           value="profile"

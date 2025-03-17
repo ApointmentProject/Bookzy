@@ -1,9 +1,11 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input, Button } from "@material-tailwind/react";
 import { useTheme } from "../../context/ThemeContext";
 import { IoIosMail, IoIosLock } from "react-icons/io";
-import { signInWithGoogle } from "../../firebase/authService";
 import { useValidatePassword } from "../../hooks/user/useValidatePassword.ts";
+import { useAuth } from "../../context/AuthContext.tsx";
+import { useCheckUser } from "../../hooks/user/useCheckUser";
 
 interface LogInFormProps {
   email: string;
@@ -24,20 +26,54 @@ export default function LogIn({
   onPasswordChange,
 }: LogInFormProps) {
   const navigate = useNavigate();
+  const { user, signInWithGoogle } = useAuth();
+  const { isDarkMode } = useTheme();
+  const { mutate: validatePassword } = useValidatePassword();
 
-  function handleGoogleLogin() {
-    // Implementar inicio de sesión con Google
-    signInWithGoogle();
-    // navigate("/profile");
+  // Hook para verificar el usuario en la base de datos
+  const { mutate: checkUser, data: userExists, isSuccess: checkSuccess, isError, error: checkError } = useCheckUser();
+
+  // Función para iniciar sesión con Google
+  async function handleGoogleLogin() {
+    try {
+      await signInWithGoogle();
+      // El usuario se actualiza en el contexto, lo que dispara el useEffect siguiente.
+    } catch (err) {
+      console.error("Error en signInWithGoogle:", err);
+    }
   }
 
+  // Verifica cambios en el usuario autenticado y llama a checkUser
+  useEffect(() => {
+    console.log("useEffect: user ha cambiado:", user);
+    if (user && user.email) {
+      console.log("Llamando a checkUser con email:", user.email);
+      checkUser(user.email);
+    }
+  }, [user, checkUser]);
 
-  const { isDarkMode } = useTheme();
+  // Verifica el resultado de la comprobación y navega según el resultado
+  useEffect(() => {
+    console.log("Resultado de checkUser - checkSuccess:", checkSuccess, "userExists:", userExists);
+    if (checkSuccess) {
+      if (userExists) {
+        console.log("Usuario existe. Navegando a /profile");
+        navigate("/profile");
+      } else {
+        console.log("Usuario no existe. Navegando a /additionalinformation");
+        navigate("/register");
+      }
+    }
+    if (isError) {
+      console.error("Error al verificar el usuario:", checkError);
+    }
+  }, [userExists, checkSuccess, isError, checkError, navigate]);
+  
 
-  const { mutate } = useValidatePassword();
+  // Función para el login tradicional con email y password
   const submitLogInForm = (e: React.FormEvent) => {
     e.preventDefault();
-    mutate({ email, password });
+    validatePassword({ email, password });
   };
 
   return (
@@ -68,7 +104,7 @@ export default function LogIn({
 
       <Button
         fullWidth
-        className="flex items-center justify-center gap-2 py-3 px-4 mt-4  hover:bg-indigo-700 bg-indigo-600"
+        className="flex items-center justify-center gap-2 py-3 px-4 mt-4 hover:bg-indigo-700 bg-indigo-600"
         type="submit"
       >
         {isLoading ? "Signing in..." : "Sign in"}
@@ -77,7 +113,7 @@ export default function LogIn({
       <div className="flex justify-center space-x-4">
         {/* Botón de Google */}
         <button
-          onClick={() => handleGoogleLogin()}
+          onClick={handleGoogleLogin}
           className="relative flex items-center justify-center w-10 h-10 rounded-full bg-black/5 dark:bg-white/5 backdrop-blur-sm hover:bg-black/10 dark:hover:bg-white/10 transition-all duration-300 focus:outline-none"
           aria-label="Iniciar sesión con Google"
         >

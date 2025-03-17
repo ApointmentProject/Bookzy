@@ -3,6 +3,18 @@ import UserRoutes from "../../constants/routes/user.routes.ts";
 import { UserRegistrationFormData } from "../../validations/validateUserRegistration.ts";
 import { UserPasswordValidationType } from "../../types/User.ts";
 
+// Función para convertir el género de español a inglés.
+const convertGender = (
+    gender: string
+  ): "Male" | "Female" | "Other" | "Prefer not to say" => {
+    const lower = gender.toLowerCase();
+    if (lower === "masculino") return "Male";
+    if (lower === "femenino") return "Female";
+    if (lower === "otro") return "Other";
+    return "Prefer not to say";
+  };
+
+
 export const createUser = async (userData: UserRegistrationFormData): Promise<void> => {
     const formattedData = {
         first_name: userData.firstName,
@@ -11,7 +23,7 @@ export const createUser = async (userData: UserRegistrationFormData): Promise<vo
         phone_number: userData.phoneNumber,
         birthday: new Date(userData.dateOfBirth),
         id_number: userData.idCard,
-        gender: userData.gender as "Male" | "Female" | "Other" | "Prefer not to say",
+        gender: convertGender(userData.gender),
         password_hash: userData.password
     };
 
