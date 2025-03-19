@@ -47,7 +47,7 @@ export default function RegisterBusiness() {
         <Button 
           variant="outlined" 
           onClick={() => setActiveSocial("instagram")} 
-          className="flex-1 flex items-center justify-center gap-2 py-1 px-2"
+          className={`flex-1 flex items-center justify-center gap-2 py-1 px-2 ${isDarkMode ? "text-white border-white" : "text-black"}`}
         >
           <FaInstagram size={28} color={iconColor} />
           <span className="text-xs">Instagram</span>
@@ -55,7 +55,7 @@ export default function RegisterBusiness() {
         <Button 
           variant="outlined" 
           onClick={() => setActiveSocial("facebook")} 
-          className="flex-1 flex items-center justify-center gap-2 py-1 px-2"
+          className={`flex-1 flex items-center justify-center gap-2 py-1 px-2 ${isDarkMode ? "text-white border-white" : "text-black"}`}
         >
           <FaFacebookF size={22} color={iconColor} />
           <span className="text-xs">Facebook</span>
@@ -63,7 +63,7 @@ export default function RegisterBusiness() {
         <Button 
           variant="outlined" 
           onClick={() => setActiveSocial("whatsapp")} 
-          className="flex-1 flex items-center justify-center gap-2 py-1 px-2"
+          className={`flex-1 flex items-center justify-center gap-2 py-1 px-2 ${isDarkMode ? "text-white border-white" : "text-black"}`}
         >
           <FaWhatsapp size={26} color={iconColor} />
           <span className="text-xs">WhatsApp</span>
