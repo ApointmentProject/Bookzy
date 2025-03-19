@@ -8,5 +8,6 @@ html, body {
     font-family: "Inter", sans-serif;
     font-optical-sizing: auto;
     font-style: normal;
+    @apply font-inter;
     @apply transition-colors duration-500 bg-main-dark-bg;
 }
