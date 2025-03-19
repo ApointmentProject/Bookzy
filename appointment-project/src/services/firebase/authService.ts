@@ -35,8 +35,8 @@ export async function signInWithGoogle() {
         // El usuario ya se logueó
         // result.user contiene la información del usuario
         console.log(result.user);
-        const userProviderData = new UserProviderData(result.user);
-        console.log("Usuario logueado con Google:", userProviderData);
+        // const userProviderData = new UserProviderData(result.user);
+        return result.user.uid;
     } catch (error) {
         console.error("Error al iniciar sesión con Google:", error);
     }

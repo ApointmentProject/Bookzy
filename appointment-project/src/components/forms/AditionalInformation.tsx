@@ -30,7 +30,6 @@ export default function AditionalInformation() {
     defaultValues: { email: initialEmail }
   });
 
-  // Hook para crear el usuario usando react-query
   const { mutate: createUser, isSuccess, isError, error } = useCreateUser();
 
   const onSubmit = (data: UserRegistrationFormData) => {
@@ -38,7 +37,6 @@ export default function AditionalInformation() {
     createUser(data);
   };
 
-  // Cuando la creación del usuario sea exitosa, redirige a /profile
   useEffect(() => {
     if (isSuccess) {
       navigate("/profile");

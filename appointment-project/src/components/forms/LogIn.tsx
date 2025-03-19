@@ -57,10 +57,8 @@ export default function LogIn({
     console.log("Resultado de checkUser - checkSuccess:", checkSuccess, "userExists:", userExists);
     if (checkSuccess) {
       if (userExists) {
-        console.log("Usuario existe. Navegando a /profile");
         navigate("/profile");
       } else {
-        console.log("Usuario no existe. Navegando a /additionalinformation");
         navigate("/register");
       }
     }

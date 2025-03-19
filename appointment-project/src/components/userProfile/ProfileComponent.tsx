@@ -54,7 +54,7 @@ export default function ProfileComponent() {
           }`}
       >
         {/* Botón de logout en la esquina superior derecha */}
-        <IconButton variant="text" className="absolute top-4 right-4 text-red-500 active:translate-x-0 active:translate-y-0" onClick={handleLogout}>
+        <IconButton variant="text" className="absolute top-4 right-4 text-red-500" onClick={handleLogout}>
         <IoIosLogOut className="h-6 w-6" />
         </IconButton>
 

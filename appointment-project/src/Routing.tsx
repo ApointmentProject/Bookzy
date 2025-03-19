@@ -7,12 +7,14 @@ import PrivacyPolicy from './pages/PrivacyPolicy'
 import DataDeletion from './pages/DataDeletion'
 import About from './pages/About'
 import AditionalInformation from './components/forms/AditionalInformation'
+import AdminDashboard from './pages/AdminDashboard'
 
 export default function Routing() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/login" element={<AuthTabs />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/terms" element={<TermsAndPolitics />} />
