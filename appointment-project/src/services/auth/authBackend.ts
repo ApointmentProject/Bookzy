@@ -1,45 +1,24 @@
-// services/authBackend.ts
-
 export interface AuthUser {
     uid: string;
     profilePic: string;
+    email?: string;
+    firstName?: string;
+    lastName?: string;
 }
 
-export async function signInWithEmailBackend(email: string, password: string): Promise<AuthUser> {
-    try {
-        // Reemplaza la URL con el endpoint de tu API
-        const response = await fetch("https://tu-api.com/api/signin", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email, password }),
-        });
-
-        if (!response.ok) {
-            throw new Error("Error en la autenticación");
-        }
-
-        const data = await response.json();
-
-        // Se asume que la respuesta de tu API tiene las propiedades 'uid' y 'profilePic'
-        const authUser: AuthUser = {
-            uid: data.uid,
-            profilePic: data.profilePic,
-        };
-
-        return authUser;
-    } catch (error) {
-        console.error("Error en signInWithEmailBackend:", error);
-        throw error;
-    }
+export interface BackendResponse<T> {
+    success?: boolean;
+    message: string;
+    data?: T;
+    error?: string;
+    passwordMatch?: boolean;
 }
 
-
-export async function fetchUserDataFromBackend(uid: string): Promise<AuthUser> {
+export async function fetchUserDataFromBackend(email: string): Promise<AuthUser> {
+    const API_URL = import.meta.env.VITE_API_URL;
+    
     try {
-        // Reemplaza la URL con el endpoint correspondiente de tu API
-        const response = await fetch(`https://tu-api.com/api/users/${uid}`, {
+        const response = await fetch(`${API_URL}/api/users/${encodeURIComponent(email)}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -47,20 +26,91 @@ export async function fetchUserDataFromBackend(uid: string): Promise<AuthUser> {
         });
 
         if (!response.ok) {
-            throw new Error("Error al obtener los datos del usuario");
+            const errorData = await response.json();
+            throw new Error(errorData.error || errorData.message || `Error ${response.status}: ${response.statusText}`);
+        }
+
+        const responseData = await response.json();
+        const userData = responseData.success ? responseData.data : responseData;
+
+        return {
+            uid: userData.uid || "",
+            profilePic: userData.profilePic || "",
+            email: email,
+            firstName: userData.firstName || "",
+            lastName: userData.lastName || "",
+        };
+    } catch (error) {
+        console.error("Error en fetchUserDataFromBackend:", error);
+        throw error;
+    }
+}
+
+export async function linkFirebaseToUser(email: string, uid: string, profilePic?: string): Promise<AuthUser> {
+    const API_URL = import.meta.env.VITE_API_URL;
+    
+    try {
+        const response = await fetch(`${API_URL}/api/users/link-firebase`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email,
+                uid,
+                profilePic: profilePic || '',
+            }),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || errorData.message || `Error ${response.status}: ${response.statusText}`);
         }
 
         const data = await response.json();
 
-        // Se asume que la respuesta de la API retorna un objeto con 'uid' y 'profilePic'
-        const user: AuthUser = {
-            uid: data.uid,
-            profilePic: data.profilePic,
+        if (!data.success || !data.data) {
+            throw new Error("La vinculación no fue exitosa");
+        }
+
+        return {
+            uid: data.data.uid || "",
+            profilePic: data.data.profilePic || "",
+            email: email,
         };
 
-        return user;
     } catch (error) {
-        console.error("Error en fetchUserDataFromBackend:", error);
+        console.error("Error en linkFirebaseToUser:", error);
+        throw error;
+    }
+}
+
+export async function signInWithEmailBackend(email: string, password: string): Promise<AuthUser> {
+    const API_URL = import.meta.env.VITE_API_URL;
+    
+    try {
+        const passwordResponse = await fetch(`${API_URL}/api/users/validatePassword`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password }),
+        });
+
+        const passwordData: BackendResponse<null> = await passwordResponse.json();
+
+        if (!passwordResponse.ok) {
+            throw new Error(passwordData.error || passwordData.message || `Error ${passwordResponse.status}: ${passwordResponse.statusText}`);
+        }
+
+        if (!passwordData.passwordMatch) {
+            throw new Error("Credenciales incorrectas");
+        }
+
+        return await fetchUserDataFromBackend(email);
+
+    } catch (error) {
+        console.error("Error en signInWithEmailBackend:", error);
         throw error;
     }
 }

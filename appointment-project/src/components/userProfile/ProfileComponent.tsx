@@ -1,53 +1,48 @@
-import { useState } from "react";
-import { useTheme } from "../../context/ThemeContext";
-import { Button, Avatar, Badge } from "@material-tailwind/react";
-import { HiOutlineRefresh } from "react-icons/hi";
-import { IoMdSettings } from "react-icons/io";
-import { FiEdit } from "react-icons/fi";
-import { useAuth } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+"use client"
+import { useTheme } from "../../context/ThemeContext"
+import { Button, Avatar, Badge } from "@material-tailwind/react"
+import { IoMdSettings} from "react-icons/io"
+import { IoLogOutOutline } from "react-icons/io5";
+import { FiEdit } from "react-icons/fi"
+import { useAuth } from "../../context/AuthContext"
+import { useNavigate } from "react-router-dom"
 
 export default function ProfileComponent() {
-  const { isDarkMode } = useTheme();
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
+  const { isDarkMode } = useTheme()
+  const { user, logout } = useAuth()
+  const navigate = useNavigate()
 
-  // Ejemplo de cuentas (si deseas mantenerlo en la UI)
-  const [accounts] = useState([
-    { id: 1, name: "Work Account", email: "work@example.com" },
-    { id: 2, name: "Personal Account", email: "personal@example.com" },
-  ]);
+  // Función para obtener el nombre a mostrar
+  const getDisplayName = () => {
+    if (user?.firstName && user?.lastName) {
+      return `${user.firstName} ${user.lastName}`
+    }
+    if (user?.email) {
+      return user.email.split("@")[0]
+    }
+    return "Nombre no disponible"
+  }
 
-  // Handlers de ejemplo para cambiar y refrescar cuentas
-  const handleSwitchAccount = () => {
-    // Lógica por el momento
-  };
+  // Función para obtener la imagen de perfil
+  const getProfileImage = () => {
+    return user?.profilePic || "/noProfileImage.jpeg"
+  }
 
-  const handleRefreshAccounts = () => {
-    // Lógica por el momento
-  };
-
-  const handleDeleteAccount = () => {
-    // Lógica por el momento
-  };
-
-  // Handler de logout (antes se llamaba al botón de la esquina)
+  // Handler de logout
   const handleLogout = async () => {
     try {
-      await logout();
+      await logout()
     } catch (error) {
-      console.error("Error en logout:", error);
+      console.error("Error en logout:", error)
     } finally {
-      navigate("/login");
+      navigate("/login")
     }
-  };
+  }
 
   return (
     <div
       className={`relative min-h-[300px] shadow-lg rounded-lg p-6 transition-all duration-500 ease-out ${
-        isDarkMode
-          ? "bg-secundary-dark-bg text-white"
-          : "bg-secundary-light-bg text-black"
+        isDarkMode ? "bg-secundary-dark-bg text-white" : "bg-secundary-light-bg text-black"
       }`}
     >
       {/* Sección principal de información del perfil */}
@@ -60,17 +55,17 @@ export default function ProfileComponent() {
           content={<IoMdSettings className="h-3 w-3 text-white" />}
         >
           <Avatar
-            src={user?.photoURL || "/noProfileImage.jpeg"}
-            alt={user?.displayName || "Account Avatar"}
+            src={getProfileImage()}
+            alt={getDisplayName()}
             size="xl"
             className="shadow w-24 h-24"
             onError={(e) => {
-              (e.target as HTMLImageElement).src = "/noProfileImage.jpeg";
+              ;(e.target as HTMLImageElement).src = "/noProfileImage.jpeg"
             }}
           />
         </Badge>
         <h2 className="mt-3 text-lg font-bold flex items-center gap-2">
-          {user?.displayName || "Nombre no disponible"}
+          {getDisplayName()}
           <FiEdit className="h-4 w-4 cursor-pointer" />
         </h2>
         <p className="text-gray-600">{user?.email || "Email no disponible"}</p>
@@ -80,71 +75,19 @@ export default function ProfileComponent() {
         </div>
       </div>
 
-      {/* Sección de cambio de cuenta */}
+      {/* Sección de manejo de cuenta */}
       <div className="mt-6">
-        <h3 className="text-md font-semibold mb-3">Switch Account</h3>
-        <ul className="space-y-2">
-          {accounts.map((account) => (
-            <li
-              key={account.id}
-              onClick={handleSwitchAccount}
-              className={`flex items-center gap-3 p-3 rounded cursor-pointer ${
-                isDarkMode
-                  ? "bg-gray-700 text-white hover:bg-gray-600"
-                  : "bg-gray-100 text-black hover:bg-gray-200"
-              }`}
-            >
-              <Avatar
-                src="/noProfileImage.jpeg"
-                alt="Account Avatar"
-                size="sm"
-                className="shadow"
-              />
-              <div>
-                <p className="text-sm font-medium">{account.name}</p>
-                <p className="text-xs">{account.email}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <h3 className="text-md font-semibold mb-3">Account Management</h3>
         <Button
           variant="outlined"
           fullWidth
-          onClick={handleRefreshAccounts}
-          className={`flex items-center justify-center gap-2 py-2 px-4 mt-4 ${
-            isDarkMode
-              ? "border-gray-600 text-white hover:bg-gray-600"
-              : "border-gray-300 text-black hover:bg-gray-200"
-          }`}
+          onClick={handleLogout}
+          className={`flex items-center justify-center gap-2 py-2 px-4 border border-indigo-600 text-indigo-600 hover:bg-indigo-600 hover:text-white transition-colors`}
         >
-          Switch Account
-          <HiOutlineRefresh className="h-5 w-5" />
+          <IoLogOutOutline className="h-5 w-5" />
+          Logout
         </Button>
       </div>
-
-      {/* Sección de manejo de cuenta */}
-      <div className="mt-4">
-        <h3 className="text-md font-semibold mb-3">Account Management</h3>
-        <div className="flex gap-3">
-          {/* Botón que ahora funciona como Logout */}
-          <Button
-            variant="outlined"
-            fullWidth
-            onClick={handleLogout}
-            className="flex-1 border border-indigo-600 text-indigo-600 hover:bg-indigo-600 hover:text-white transition-colors"
-          >
-            Logout
-          </Button>
-          <Button
-            variant="outlined"
-            fullWidth
-            onClick={handleDeleteAccount}
-            className="flex-1 border border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition-colors"
-          >
-            Delete
-          </Button>
-        </div>
-      </div>
     </div>
-  );
+  )
 }

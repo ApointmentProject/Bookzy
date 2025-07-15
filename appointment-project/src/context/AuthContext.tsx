@@ -1,11 +1,13 @@
 import { createContext, useContext, ReactNode, useEffect, useState } from "react";
 import { signInWithGoogle as firebaseSignInWithGoogle, logout as firebaseLogout } from "../services/firebase/authService";
-import { fetchUserDataFromBackend, signInWithEmailBackend } from "../services/auth/authBackend";
+import { fetchUserDataFromBackend, signInWithEmailBackend, linkFirebaseToUser } from "../services/auth/authBackend";
 
 export interface AuthUser {
   uid: string;
   profilePic: string;
-  // Puedes agregar más propiedades según lo que retorne tu API
+  email?: string;
+  firstName?: string;
+  lastName?: string;
 }
 
 interface AuthContextProps {
@@ -15,6 +17,7 @@ interface AuthContextProps {
   signInWithGoogle: () => Promise<void>;
   signInWithEmail: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  clearError: () => void;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -24,56 +27,118 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
-  // Cargar usuario almacenado en localStorage al iniciar
+  // Cargar usuario desde localStorage al iniciar
   useEffect(() => {
     const storedUser = localStorage.getItem("authUser");
+
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      try {
+        const parsedUser: AuthUser = JSON.parse(storedUser);
+        if (parsedUser.uid && parsedUser.uid.trim() !== '') {
+          setUser(parsedUser);
+        } else {
+          localStorage.removeItem("authUser");
+        }
+      } catch (parseError) {
+        localStorage.removeItem("authUser");
+      }
     }
+
     setLoading(false);
   }, []);
 
   const signInWithGoogle = async () => {
+    setLoading(true);
+    setError(null);
+    
     try {
-      // Inicia sesión con Google mediante Firebase
-      const uid = await firebaseSignInWithGoogle();
-      // Después del login, se debe obtener la info del usuario desde tu backend.
-      // Se asume que firebaseSignInWithGoogle deja disponible el uid de Firebase o algún identificador
-      // que puedas usar para obtener la información completa desde tu backend.
-      // Por ejemplo, podrías extraer el uid de firebase o pasarlo como argumento.
-      if (!uid) {
-        throw new Error("UID is undefined");
+      const firebaseUser = await firebaseSignInWithGoogle();
+
+      if (!firebaseUser.email) {
+        throw new Error("No se pudo obtener el email del usuario de Firebase.");
       }
-      const dbUser: AuthUser = await fetchUserDataFromBackend(uid);
-      localStorage.setItem("authUser", JSON.stringify(dbUser));
-      setUser(dbUser);
+
+      let dbUser = await fetchUserDataFromBackend(firebaseUser.email);
+
+      // Vincular UID si no existe
+      if (!dbUser.uid || dbUser.uid.trim() === '') {
+        dbUser = await linkFirebaseToUser(
+          firebaseUser.email,
+          firebaseUser.uid,
+          firebaseUser.photoURL || ''
+        );
+      }
+
+      const authUser: AuthUser = {
+        uid: dbUser.uid,
+        profilePic: dbUser.profilePic,
+        email: firebaseUser.email,
+      };
+      
+      localStorage.setItem("authUser", JSON.stringify(authUser));
+      setUser(authUser);
+      
     } catch (err: unknown) {
       setError(err as Error);
+      localStorage.removeItem("authUser");
+      setUser(null);
+    } finally {
+      setLoading(false);
     }
   };
 
   const signInWithEmail = async (email: string, password: string) => {
+    setLoading(true);
+    setError(null);
+    
     try {
       const dbUser: AuthUser = await signInWithEmailBackend(email, password);
-      localStorage.setItem("authUser", JSON.stringify(dbUser));
-      setUser(dbUser);
+
+      if (!dbUser.uid || dbUser.uid.trim() === '') {
+        throw new Error("Usuario no tiene credenciales de Firebase vinculadas");
+      }
+
+      const authUser: AuthUser = {
+        ...dbUser,
+        email,
+      };
+
+      localStorage.setItem("authUser", JSON.stringify(authUser));
+      setUser(authUser);
     } catch (err: unknown) {
       setError(err as Error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const logout = async () => {
+    setLoading(true);
     try {
-      // Si usas Firebase para Google, se cierra sesión en Firebase
       await firebaseLogout();
       localStorage.removeItem("authUser");
       setUser(null);
+      setError(null);
     } catch (err: unknown) {
       setError(err as Error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const value: AuthContextProps = { user, loading, error, signInWithGoogle, signInWithEmail, logout };
+  const clearError = () => {
+    setError(null);
+  };
+
+  const value: AuthContextProps = {
+    user,
+    loading,
+    error,
+    signInWithGoogle,
+    signInWithEmail,
+    logout,
+    clearError
+  };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
