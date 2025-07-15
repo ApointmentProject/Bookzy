@@ -13,18 +13,18 @@ export default function FeatureSection() {
             <div className="container mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-12">
                 <FeatureCard
                     icon={<HiCalendarDays className={`h-12 w-12 ${isDarkMode ? "text-main-dark-bg" : "text-indigo-600"}`} />}
-                    title="Smart Scheduling"
-                    description="Intelligent calendar that adapts to your preferences and availability."
+                    title="Agendado Inteligente"
+                    description="Calendario inteligente que se adapta a tus preferencias y disponibilidad."
                 />
                 <FeatureCard
                     icon={<LuAlarmClock className={`h-12 w-12 ${isDarkMode ? "text-main-dark-bg" : "text-indigo-600"}`} />}
-                    title="Time Management"
-                    description="Set reminders and get notifications to stay on top of your schedule."
+                    title="Gestión del Tiempo"
+                    description="Configura recordatorios y recibe notificaciones para mantenerte al día con tu agenda."
                 />
                 <FeatureCard
                     icon={<TbUsersGroup className={`h-12 w-12 ${isDarkMode ? "text-main-dark-bg" : "text-indigo-600"}`} />}
-                    title="Team Coordination"
-                    description="Share calendars and coordinate meetings with colleagues and friends."
+                    title="Coordinación de Equipo"
+                    description="Comparte calendarios y coordina reuniones con colegas y amigos."
                 />
             </div>
         </section>
