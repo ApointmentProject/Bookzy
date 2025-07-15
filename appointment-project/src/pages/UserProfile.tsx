@@ -12,11 +12,9 @@ import ProfileComponent from "../components/userProfile/ProfileComponent";
 import SecurityComponent from "../components/userProfile/SecurityComponent";
 import PreferencesComponent from "../components/userProfile/PreferencesComponent";
 import Header from "../components/header/Header.tsx";
-import { useAuth } from "../context/AuthContext";
 
 export default function UserProfile() {
   const { isDarkMode } = useTheme();
-  const { user, loading } = useAuth();
 
   const data = [
     {
@@ -38,26 +36,6 @@ export default function UserProfile() {
       component: <PreferencesComponent />,
     },
   ];
-
-  const getDisplayName = () => {
-    if (user?.firstName && user?.lastName) {
-      return `${user.firstName} ${user.lastName}`;
-    }
-    if (user?.email) {
-      return user.email.split('@')[0];
-    }
-    return "Usuario";
-  };
-
-  // Obtener el email para mostrar
-  const getDisplayEmail = () => {
-    return user?.email || "Email no disponible";
-  };
-
-  // Obtener la imagen de perfil
-  const getProfileImage = () => {
-    return user?.profilePic || "/noProfileImage.jpeg";
-  };
 
   return (
     <div
