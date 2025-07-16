@@ -14,6 +14,7 @@ import { registerUserSchema } from "../../validations/authSchemas";
 import { useCreateUser } from "../../hooks/user/useCreateUser";
 import { UserRegistrationFormData } from "../../validations/registration/validateUserRegistration";
 import { useToast } from "../../context/ToastContext";
+import { useNavigate } from "react-router-dom";
 
 type FormInputs = {
   firstName: string;
@@ -39,6 +40,7 @@ export function RegisterUserForm() {
 
   const [isPending, setIsPending] = useState(false);
   const createUserMutation = useCreateUser();
+  const navigate = useNavigate();
   const { addToast } = useToast();
 
   const onSubmit = async (data: FormInputs) => {
@@ -62,6 +64,9 @@ export function RegisterUserForm() {
           title: "Usuario creado",
           message: "El usuario se ha registrado exitosamente.",
         });
+        setTimeout(() => {
+          navigate("/login"); // ✅ Redirigir al login
+        }, 1000);
       },
       onError: (error) => {
         addToast({
