@@ -19,6 +19,8 @@ export function LoginForm() {
   const { signInWithGoogle, signInWithEmail } = useAuth()
   const navigate = useNavigate()
 
+  const inputColor = isDarkMode ? "white" : "gray";
+
   const {
     register,
     handleSubmit,
@@ -28,42 +30,39 @@ export function LoginForm() {
   })
 
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null);
+
 
   const onSubmit = async (data: LoginFormInputs) => {
     setIsLoading(true)
+    setIsLoading(true)
     setError(null)
-    setSuccess(null)
 
     try {
       await signInWithEmail(data.email, data.password)
-      setSuccess("¡Inicio de sesión exitoso!")
       setTimeout(() => navigate("/"), 1000)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message || "Error al iniciar sesión. Verifica tus credenciales.")
     } finally {
       setIsLoading(false)
     }
-  }
+  };
 
   const handleGoogleLogin = async () => {
     setIsLoading(true)
+    setIsLoading(true)
     setError(null)
-    setSuccess(null)
 
     try {
       await signInWithGoogle()
-      setSuccess("¡Inicio de sesión con Google exitoso!")
-      setTimeout(() => navigate("/profile"), 1000)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message || "Error al iniciar sesión con Google.")
     } finally {
       setIsLoading(false)
     }
-  }
-
-  const inputColor = isDarkMode ? "white" : "blue"
+  };
 
   return (
     <div className={`mx-auto w-full max-w-md space-y-6 p-4 sm:p-6 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
@@ -114,6 +113,12 @@ export function LoginForm() {
 
       </form>
 
+      {error && (
+        <div className="mt-4 text-center text-sm text-red-500">
+          {error}
+        </div>
+      )}
+
       <div className="relative my-8">
         <div className="absolute inset-0 flex items-center">
           <span className={`w-full border-t ${isDarkMode ? "border-gray-600" : "border-gray-300"}`} />
@@ -138,3 +143,5 @@ export function LoginForm() {
     </div>
   )
 }
+
+

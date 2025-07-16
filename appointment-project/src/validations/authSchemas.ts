@@ -13,7 +13,7 @@ export const registerUserSchema = yup.object({
     .matches(/^\+?[\d\s\-]{7,15}$/, "Número de teléfono inválido")
     .required("El teléfono es obligatorio"),
   email: yup.string().email("Correo inválido").required("El correo es obligatorio"),
-  dob: yup.date().typeError("Fecha inválida").required("La fecha de nacimiento es obligatoria"),
+  dob: yup.string().required("Fecha de nacimiento obligatoria"),
   idNumber: yup.string()
     .matches(/^\d{9,12}$/, "Cédula inválida (9 a 12 dígitos)")
     .required("La cédula es obligatoria"),

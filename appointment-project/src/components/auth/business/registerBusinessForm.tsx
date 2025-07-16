@@ -14,6 +14,7 @@ import { FaInstagram, FaFacebook, FaWhatsapp } from "react-icons/fa";
 import { businessCategories } from "../../../constants/data/categories";
 import { provinces } from "../../../constants/data/costaRicaLocations";
 import { useRegisterBusiness } from "./useRegisterBusiness";
+import { BusinessFormData } from "./registerBusiness.types";
 
 export function RegisterBusinessForm() {
   const { isDarkMode } = useTheme();
@@ -282,7 +283,8 @@ export function RegisterBusinessForm() {
               />
               {icon}
               <Input
-                {...register(field as const)}
+                {...register(field as keyof BusinessFormData)}
+
                 disabled={!checked}
                 placeholder={`${label}.com/minegocio`}
                 className="flex-1"

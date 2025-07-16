@@ -1,6 +1,6 @@
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers/yup"
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Input,
   Button,
@@ -9,23 +9,23 @@ import {
   Typography,
   Card,
   CardBody,
-} from "@material-tailwind/react"
-import { registerUserSchema } from "../../validations/authSchemas"
+} from "@material-tailwind/react";
+import { registerUserSchema } from "../../validations/authSchemas";
 import { useCreateUser } from "../../hooks/user/useCreateUser";
-import { UserRegistrationFormData } from "../../validations/validateUserRegistration";
-
+import { UserRegistrationFormData } from "../../validations/registration/validateUserRegistration";
+import { useToast } from "../../context/ToastContext";
 
 type FormInputs = {
-  firstName: string
-  lastName: string
-  phone: string
-  email: string
-  dob: string // corregido: string en lugar de Date
-  idNumber: string
-  gender: string
-  password: string
-  confirmPassword: string
-}
+  firstName: string;
+  lastName: string;
+  phone: string;
+  email: string;
+  dob: string; // string por input type="date"
+  idNumber: string;
+  gender: string;
+  password: string;
+  confirmPassword: string;
+};
 
 export function RegisterUserForm() {
   const {
@@ -35,40 +35,46 @@ export function RegisterUserForm() {
     formState: { errors },
   } = useForm<FormInputs>({
     resolver: yupResolver(registerUserSchema),
-  })
+  });
 
-  const [isPending, setIsPending] = useState(false)
-  const [state, setState] = useState<{ success: boolean; message: string } | null>(null)
+  const [isPending, setIsPending] = useState(false);
   const createUserMutation = useCreateUser();
-
+  const { addToast } = useToast();
 
   const onSubmit = async (data: FormInputs) => {
-  setIsPending(true);
+    setIsPending(true);
 
-  const formattedData: UserRegistrationFormData = {
-    firstName: data.firstName,
-    lastName: data.lastName,
-    phone: data.phone,
-    email: data.email,
-    dob: data.dob,
-    idNumber: data.idNumber,
-    gender: data.gender as any, // aseguramos el tipo con cast
-    password: data.password,
+    const formattedData: UserRegistrationFormData = {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      phone: data.phone,
+      email: data.email,
+      dob: data.dob,
+      idNumber: data.idNumber,
+      gender: data.gender as any,
+      password: data.password,
+    };
+
+    createUserMutation.mutate(formattedData, {
+      onSuccess: () => {
+        addToast({
+          type: "success",
+          title: "Usuario creado",
+          message: "El usuario se ha registrado exitosamente.",
+        });
+      },
+      onError: (error) => {
+        addToast({
+          type: "error",
+          title: "Error al registrar",
+          message: error.message,
+        });
+      },
+      onSettled: () => {
+        setIsPending(false);
+      },
+    });
   };
-
-  createUserMutation.mutate(formattedData, {
-    onSuccess: () => {
-      setState({ success: true, message: "Usuario creado exitosamente" });
-    },
-    onError: (error) => {
-      setState({ success: false, message: error.message });
-    },
-    onSettled: () => {
-      setIsPending(false);
-    },
-  });
-};
-
 
   return (
     <Card className="mx-auto max-w-2xl p-6">
@@ -146,5 +152,5 @@ export function RegisterUserForm() {
         </form>
       </CardBody>
     </Card>
-  )
+  );
 }

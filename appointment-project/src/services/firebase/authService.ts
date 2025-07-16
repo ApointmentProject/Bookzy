@@ -2,15 +2,6 @@
 import { auth } from "./firebase"
 import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 
-interface ProviderData {
-  providerId: string;
-  uid: string;
-  displayName: string | null;
-  email: string | null;
-  phoneNumber: string | null;
-  photoURL: string | null;
-}
-
 export interface FirebaseUserInfo {
   uid: string;
   email: string;
@@ -18,22 +9,6 @@ export interface FirebaseUserInfo {
   photoURL: string | null;
 }
 
-// Clase para almacenar y gestionar los datos de providerData
-class UserProviderData {
-  providerData: ProviderData[];
-
-  constructor(firebaseUser: { providerData: ProviderData[] }) {
-    // Se asume que firebaseUser.providerData es un arreglo de objetos
-    this.providerData = firebaseUser.providerData.map((provider: ProviderData) => ({
-      providerId: provider.providerId,
-      uid: provider.uid,
-      displayName: provider.displayName,
-      email: provider.email,
-      phoneNumber: provider.phoneNumber,
-      photoURL: provider.photoURL,
-    }));
-  }
-}
 
 const provider = new GoogleAuthProvider();
 
