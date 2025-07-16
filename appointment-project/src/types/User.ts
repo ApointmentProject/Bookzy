@@ -14,4 +14,4 @@ export interface UserType {
 export interface UserPasswordValidationType {
     email: string;
     password: string;
-};
+}
