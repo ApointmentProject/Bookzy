@@ -1,127 +1,85 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-// import { useNavigate } from "react-router-dom";
-import { TbHomeFilled } from "react-icons/tb";
-import LogIn from "../components/forms/LogIn";
-import RegisterBusiness from "../components/forms/RegisterBusiness";
-import RegisterUser from "../components/forms/RegisterUser";
-
+import { useState } from "react";
+import { Tabs, TabsHeader, TabsBody, Tab, TabPanel } from "@material-tailwind/react";
 import { useTheme } from "../context/ThemeContext";
+import { LoginForm } from "../components/auth/loginForm";
+import { RegisterBusinessForm } from "../components/auth/business/registerBusinessForm";
+import { RegisterUserForm } from "../components/auth/registerUserForm";
+import { HomeSpeedDial } from "../components/auth/homeSpeedDial";
 
-const AuthTabs: React.FC = () => {
-  // const navigate = useNavigate();
+
+
+export default function HomePage() {
   const { isDarkMode } = useTheme();
+  const [activeTab, setActiveTab] = useState("login");
 
-  // Estados para el login y registros
-  const [isLoading, setIsLoading] = useState(false);
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [error, setError] = useState<string | null>(null);
-
-  // Estado para manejar la pestaña: "login", "register" o "business"
-  const [tab, setTab] = useState("login");
-
-  useEffect(() => {
-    // Quitar las clases de animación después de un pequeño retraso
-    setTimeout(() => {
-      document.getElementById("login-container")?.classList.remove("opacity-0", "translate-y-5");
-    }, 50);
-  }, []);
-
-  const handleEmailLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      // Simula una petición de login
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-    } catch (err) {
-      setError("Failed to sign in. Please check your credentials.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const tabsData = [
+    {
+      label: "Login",
+      value: "login",
+      component: <LoginForm />,
+    },
+    {
+      label: "Registro Usuario",
+      value: "register-user",
+      component: <RegisterUserForm />,
+    },
+    {
+      label: "Registro Negocio",
+      value: "register-business",
+      component: <RegisterBusinessForm />,
+    },
+  ];
 
   return (
-    <div
-      className={`flex items-center justify-center min-h-screen p-6 relative transition-colors duration-500 ${isDarkMode ? "bg-main-dark-bg text-white" : "bg-main-light-bg text-black"
-        }`}
-    >
-      {/* Ícono Home en la esquina superior izquierda */}
-      <Link
-        to="/"
-        className={`absolute top-4 left-4 text-3xl md:text-4xl transition-colors duration-300 ${isDarkMode ? "text-white hover:text-gray-400" : "text-black hover:text-gray-600"
-          }`}
-      >
-        <TbHomeFilled />
-      </Link>
-
-      <div
-        id="login-container"
-        className={`w-full max-w-md shadow-lg rounded-lg p-6 opacity-0 translate-y-5 transition-all duration-500 ease-out mt-16 ${isDarkMode ? "bg-secundary-dark-bg text-white" : "bg-secundary-light-bg text-black"
-          }`}
-      >
-        <h2 className="text-2xl font-bold text-center mb-2">Welcome back</h2>
-        <p className="text-gray-400 text-center mb-6">Sign in to your account to continue</p>
-
-        {/* Tabs para cambiar entre Login, Register y Business */}
-        <div className={`flex mb-4 border-b ${isDarkMode ? "border-gray-700" : "border-gray-300"}`}>
-          <button
-            className={`w-1/3 py-2 text-center transition-all duration-300 ${tab === "login"
-                ? "border-b-2 border-indigo-500"
-                : isDarkMode
-                  ? "text-gray-400 hover:text-gray-200"
-                  : "text-gray-600 hover:text-gray-800"
+    <main className={`flex min-h-screen items-center justify-center p-4 transition-colors duration-300 ${isDarkMode ? "bg-main-dark-bg" : "bg-gray-100"
+      }`}>
+      <div className={`w-full max-w-4xl rounded-lg p-6 shadow-lg transition-colors duration-300 ${isDarkMode ? "bg-secundary-dark-bg" : "bg-white"
+        }`}>
+        <Tabs value={activeTab} className="w-full">
+          <TabsHeader
+            className={`rounded-lg p-1 ${isDarkMode ? "bg-gray-800" : "bg-gray-100"
               }`}
-            onClick={() => setTab("login")}
+            indicatorProps={{
+              className: `rounded-md shadow-none ${isDarkMode ? "bg-gray-700" : "bg-white"
+                }`,
+            }}
           >
-            Login
-          </button>
-          <button
-            className={`w-1/3 py-2 text-center transition-all duration-300 ${tab === "register"
-                ? "border-b-2 border-indigo-500"
-                : isDarkMode
-                  ? "text-gray-400 hover:text-gray-200"
-                  : "text-gray-600 hover:text-gray-800"
-              }`}
-            onClick={() => setTab("register")}
-          >
-            Register
-          </button>
-          <button
-            className={`w-1/3 py-2 text-center transition-all duration-300 ${tab === "business"
-                ? "border-b-2 border-indigo-500"
-                : isDarkMode
-                  ? "text-gray-400 hover:text-gray-200"
-                  : "text-gray-600 hover:text-gray-800"
-              }`}
-            onClick={() => setTab("business")}
-          >
-            Business
-          </button>
-        </div>
+            {tabsData.map(({ label, value }) => (
+              <Tab
+                key={value}
+                value={value}
+                onClick={() => setActiveTab(value)}
+                className={`py-2 px-4 text-sm font-medium transition-colors ${activeTab === value
+                    ? isDarkMode
+                      ? "text-white"
+                      : "text-gray-900"
+                    : isDarkMode
+                      ? "text-gray-400 hover:text-gray-200"
+                      : "text-gray-600 hover:text-gray-900"
+                  }`}
+              >
+                {label}
+              </Tab>
+            ))}
+          </TabsHeader>
 
-        {/* Mostrar formulario según la pestaña seleccionada */}
-        <div className="transition-opacity duration-500 ease-in-out">
-          {tab === "login" && (
-            <LogIn
-              email={email}
-              password={password}
-              isLoading={isLoading}
-              error={error}
-              onEmailChange={(e) => setEmail(e.target.value)}
-              onPasswordChange={(e) => setPassword(e.target.value)}
-              onSubmit={handleEmailLogin}
-            />
-          )}
-          {tab === "register" && <RegisterUser />}
-          {tab === "business" && <RegisterBusiness />}
-        </div>
-
+          <TabsBody
+            animate={{
+              initial: { y: 10, opacity: 0 },
+              mount: { y: 0, opacity: 1 },
+              unmount: { y: -10, opacity: 0 },
+            }}
+            className="mt-4"
+          >
+            {tabsData.map(({ value, component }) => (
+              <TabPanel key={value} value={value} className="p-0">
+                {component}
+              </TabPanel>
+            ))}
+          </TabsBody>
+        </Tabs>
       </div>
-    </div>
+      <HomeSpeedDial />
+    </main>
   );
-};
-
-export default AuthTabs;
+}

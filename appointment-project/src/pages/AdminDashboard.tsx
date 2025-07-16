@@ -1,4 +1,3 @@
-
 export default function AdminDashboard() {
   return (
     <div className='flex min-h-screen justify-center items-center'>
