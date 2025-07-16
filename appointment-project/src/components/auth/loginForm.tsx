@@ -39,7 +39,7 @@ export function LoginForm() {
     try {
       await signInWithEmail(data.email, data.password)
       setSuccess("¡Inicio de sesión exitoso!")
-      setTimeout(() => navigate("/profile"), 1000)
+      setTimeout(() => navigate("/"), 1000)
     } catch (err: any) {
       setError(err.message || "Error al iniciar sesión. Verifica tus credenciales.")
     } finally {
@@ -112,8 +112,6 @@ export function LoginForm() {
           {isLoading ? "Iniciando..." : "Iniciar Sesión"}
         </Button>
 
-        {error && <p className="text-center text-sm text-red-500">{error}</p>}
-        {success && <p className="text-center text-sm text-green-500">{success}</p>}
       </form>
 
       <div className="relative my-8">
@@ -129,9 +127,8 @@ export function LoginForm() {
 
       <Button
         variant="outlined"
-        className={`w-full flex items-center justify-center gap-2 ${
-          isDarkMode ? "border-gray-600 text-white hover:bg-gray-800" : "border-gray-300 text-gray-700 hover:bg-gray-50"
-        }`}
+        className={`w-full flex items-center justify-center gap-2 ${isDarkMode ? "border-gray-600 text-white hover:bg-gray-800" : "border-gray-300 text-gray-700 hover:bg-gray-50"
+          }`}
         onClick={handleGoogleLogin}
         disabled={isLoading}
       >

@@ -11,6 +11,9 @@ import {
   CardBody,
 } from "@material-tailwind/react"
 import { registerUserSchema } from "../../validations/authSchemas"
+import { useCreateUser } from "../../hooks/user/useCreateUser";
+import { UserRegistrationFormData } from "../../validations/validateUserRegistration";
+
 
 type FormInputs = {
   firstName: string
@@ -36,18 +39,36 @@ export function RegisterUserForm() {
 
   const [isPending, setIsPending] = useState(false)
   const [state, setState] = useState<{ success: boolean; message: string } | null>(null)
+  const createUserMutation = useCreateUser();
+
 
   const onSubmit = async (data: FormInputs) => {
-    setIsPending(true)
-    const response = await fetch("/api/register", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: { "Content-Type": "application/json" },
-    })
-    const result = await response.json()
-    setState(result)
-    setIsPending(false)
-  }
+  setIsPending(true);
+
+  const formattedData: UserRegistrationFormData = {
+    firstName: data.firstName,
+    lastName: data.lastName,
+    phone: data.phone,
+    email: data.email,
+    dob: data.dob,
+    idNumber: data.idNumber,
+    gender: data.gender as any, // aseguramos el tipo con cast
+    password: data.password,
+  };
+
+  createUserMutation.mutate(formattedData, {
+    onSuccess: () => {
+      setState({ success: true, message: "Usuario creado exitosamente" });
+    },
+    onError: (error) => {
+      setState({ success: false, message: error.message });
+    },
+    onSettled: () => {
+      setIsPending(false);
+    },
+  });
+};
+
 
   return (
     <Card className="mx-auto max-w-2xl p-6">
@@ -122,17 +143,6 @@ export function RegisterUserForm() {
           <Button type="submit" fullWidth disabled={isPending}>
             {isPending ? "Creando cuenta..." : "Crear Cuenta"}
           </Button>
-
-          {state?.message && (
-            <Typography
-              variant="small"
-              className={`text-center ${
-                state.success ? "text-green-500" : "text-red-500"
-              }`}
-            >
-              {state.message}
-            </Typography>
-          )}
         </form>
       </CardBody>
     </Card>

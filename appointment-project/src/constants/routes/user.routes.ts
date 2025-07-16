@@ -1,4 +1,4 @@
-const baseUrl = '/user';
+const baseUrl = 'api/users';
 
 const routes = (endpoint: string) => `${baseUrl}/${endpoint}`;
 

@@ -1,9 +1,10 @@
 import { createContext, useContext, ReactNode, useEffect, useState } from "react";
 import { signInWithGoogle as firebaseSignInWithGoogle, logout as firebaseLogout } from "../services/firebase/authService";
 import { fetchUserDataFromBackend, signInWithEmailBackend, linkFirebaseToUser } from "../services/auth/authBackend";
+import { useToast } from "./ToastContext";
 
 export interface AuthUser {
-  uid: string;
+  uid?: string; // ← ya no obligatorio
   profilePic: string;
   email?: string;
   firstName?: string;
@@ -26,6 +27,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const { addToast } = useToast();
 
   // Cargar usuario desde localStorage al iniciar
   useEffect(() => {
@@ -50,18 +52,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const signInWithGoogle = async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
+      // 1. Login con Firebase
       const firebaseUser = await firebaseSignInWithGoogle();
 
       if (!firebaseUser.email) {
         throw new Error("No se pudo obtener el email del usuario de Firebase.");
       }
 
+      // 2. Buscar usuario en la base de datos por email
       let dbUser = await fetchUserDataFromBackend(firebaseUser.email);
 
-      // Vincular UID si no existe
+      // 3. Verificar si el UID ya está asociado en la BD
       if (!dbUser.uid || dbUser.uid.trim() === '') {
+        // 4. Si no está asociado, lo vinculamos
         dbUser = await linkFirebaseToUser(
           firebaseUser.email,
           firebaseUser.uid,
@@ -69,48 +74,74 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         );
       }
 
+      // 5. Guardamos el usuario
       const authUser: AuthUser = {
         uid: dbUser.uid,
         profilePic: dbUser.profilePic,
         email: firebaseUser.email,
+        firstName: dbUser.firstName,
+        lastName: dbUser.lastName,
       };
-      
+
       localStorage.setItem("authUser", JSON.stringify(authUser));
       setUser(authUser);
-      
+
+      // 6. Toast de éxito
+      addToast({
+        type: "success",
+        title: "Inicio de sesión exitoso",
+        message: `¡Bienvenido${authUser.firstName ? `, ${authUser.firstName}` : ""}!`,
+      });
+
     } catch (err: unknown) {
       setError(err as Error);
       localStorage.removeItem("authUser");
       setUser(null);
+
+      // Opcional: Toast de error
+      addToast({
+        type: "error",
+        title: "Error de inicio con Google",
+        message: (err as Error).message || "Ocurrió un error inesperado",
+      });
+
     } finally {
       setLoading(false);
     }
   };
 
+
   const signInWithEmail = async (email: string, password: string) => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const dbUser: AuthUser = await signInWithEmailBackend(email, password);
-
-      if (!dbUser.uid || dbUser.uid.trim() === '') {
-        throw new Error("Usuario no tiene credenciales de Firebase vinculadas");
-      }
-
-      const authUser: AuthUser = {
-        ...dbUser,
-        email,
-      };
+      const authUser: AuthUser = { ...dbUser, email };
 
       localStorage.setItem("authUser", JSON.stringify(authUser));
       setUser(authUser);
-    } catch (err: unknown) {
+
+      // ✅ Toast de éxito
+      addToast({
+        type: "success",
+        title: "Inicio de sesión exitoso",
+        message: `¡Bienvenido${authUser.firstName ? `, ${authUser.firstName}` : ""}!`,
+      });
+
+    } catch (err: any) {
+      addToast({
+        type: "error",
+        title: "Error de inicio de sesión",
+        message: err.message || "Verifica tus credenciales.",
+      });
       setError(err as Error);
     } finally {
       setLoading(false);
     }
   };
+
+
 
   const logout = async () => {
     setLoading(true);

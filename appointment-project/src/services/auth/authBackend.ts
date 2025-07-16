@@ -46,43 +46,50 @@ export async function fetchUserDataFromBackend(email: string): Promise<AuthUser>
     }
 }
 
-export async function linkFirebaseToUser(email: string, uid: string, profilePic?: string): Promise<AuthUser> {
-    const API_URL = import.meta.env.VITE_API_URL;
-    
-    try {
-        const response = await fetch(`${API_URL}/api/users/link-firebase`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email,
-                uid,
-                profilePic: profilePic || '',
-            }),
-        });
+export async function linkFirebaseToUser(
+  email: string,
+  uid: string,
+  profilePic?: string
+): Promise<AuthUser> {
+  const API_URL = import.meta.env.VITE_API_URL;
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error || errorData.message || `Error ${response.status}: ${response.statusText}`);
-        }
+  try {
+    const response = await fetch(`${API_URL}/api/users/link-firebase`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        uid,
+        profilePic: profilePic || '',
+      }),
+    });
 
-        const data = await response.json();
-
-        if (!data.success || !data.data) {
-            throw new Error("La vinculación no fue exitosa");
-        }
-
-        return {
-            uid: data.data.uid || "",
-            profilePic: data.data.profilePic || "",
-            email: email,
-        };
-
-    } catch (error) {
-        console.error("Error en linkFirebaseToUser:", error);
-        throw error;
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        errorData.error || errorData.message || `Error ${response.status}: ${response.statusText}`
+      );
     }
+
+    const data = await response.json();
+
+    if (!data.success || !data.data) {
+      throw new Error("La vinculación no fue exitosa");
+    }
+
+    return {
+      uid: data.data.uid || '',
+      profilePic: data.data.profilePic || '',
+      email: data.data.email || '',
+      firstName: data.data.firstName || '',
+      lastName: data.data.lastName || '',
+    };
+  } catch (error) {
+    console.error("Error en linkFirebaseToUser:", error);
+    throw error;
+  }
 }
 
 export async function signInWithEmailBackend(email: string, password: string): Promise<AuthUser> {
