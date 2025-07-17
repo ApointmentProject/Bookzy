@@ -15,6 +15,9 @@ import { businessCategories } from "../../../constants/data/categories";
 import { provinces } from "../../../constants/data/costaRicaLocations";
 import { useRegisterBusiness } from "./useRegisterBusiness";
 import { BusinessFormData } from "./registerBusiness.types";
+import { useToast } from "../../../context/ToastContext";
+import { registerBusiness } from "../../../services/business/businessBackend";
+import { useEffect } from "react";
 
 export function RegisterBusinessForm() {
   const { isDarkMode } = useTheme();
@@ -54,6 +57,8 @@ export function RegisterBusinessForm() {
     formState: { errors },
     handleSubmit,            // <- handleSubmit propio de businessForm
   } = businessForm;
+  const { addToast } = useToast()
+
 
   /* ---- sincróniza selects externos con RHF ---- */
   const syncProvince = (prov: string) => {
@@ -79,11 +84,49 @@ export function RegisterBusinessForm() {
 
   /* ----------- envío ----------- */
   const onSubmit = () =>
-    submitAllForms((data) => {
-      // aquí llega SÓLO SI TODO ES VÁLIDO
-      console.log("Payload final →", data);
-      /* tu request al backend… */
+    submitAllForms(async (data) => {
+      try {
+        const response = await registerBusiness(data);
+        if (response.success) {
+          addToast({
+            type: "success",
+            title: "Negocio registrado",
+            message: "¡El negocio se registró correctamente!",
+          });
+        } else {
+          throw new Error(response.error || response.message);
+        }
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : "Error inesperado";
+        addToast({
+          type: "error",
+          title: "Error al registrar",
+          message,
+        });
+      }
     });
+
+      // Para evitar selección doble de canton/distrito
+  useEffect(() => {
+    if (selectedProvince) setValue("province", selectedProvince);
+  }, [selectedProvince, setValue]);
+
+  useEffect(() => {
+    if (selectedCanton) setValue("canton", selectedCanton);
+  }, [selectedCanton, setValue]);
+
+  useEffect(() => {
+    if (selectedDistrict) setValue("district", selectedDistrict);
+  }, [selectedDistrict, setValue]);
+
+  // Corrección: limpiar redes no seleccionadas
+  useEffect(() => {
+    if (!hasInstagram) setValue("socialMedia.instagram", null);
+    if (!hasFacebook) setValue("socialMedia.facebook", null);
+    if (!hasWhatsapp) setValue("socialMedia.whatsapp", null);
+  }, [hasInstagram, hasFacebook, hasWhatsapp, setValue]);
+
+
 
   return (
     <div className="mx-auto w-full max-w-3xl space-y-6 p-4 sm:p-6">

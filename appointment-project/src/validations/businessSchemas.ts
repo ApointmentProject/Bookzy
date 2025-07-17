@@ -1,3 +1,4 @@
+// src/validations/businessSchemas.ts
 import * as yup from "yup";
 
 export const businessSchema = yup.object({
@@ -5,25 +6,26 @@ export const businessSchema = yup.object({
   businessName: yup.string().required("El nombre del negocio es obligatorio"),
   slogan: yup.string().optional(),
   businessPhone: yup
-  .string()
-  .required("El número de teléfono es obligatorio")
-  .matches(
-  /^[268]{1}\d{3}-?\d{4}$/,
-  "El número debe tener 8 dígitos y puede tener guion (8888-8888 o 88888888)"
-  ),
+    .string()
+    .required("El número de teléfono es obligatorio")
+    .matches(
+      /^[268]{1}\d{3}-?\d{4}$/,
+      "El número debe tener 8 dígitos y puede tener guion (8888-8888 o 88888888)"
+    ),
   exactAddress: yup.string().required("La dirección exacta es obligatoria"),
   province: yup.string().required("La provincia es obligatoria"),
   canton: yup.string().required("El cantón es obligatorio"),
   district: yup.string().required("El distrito es obligatorio"),
   businessDescription: yup.string().required("La descripción es obligatoria"),
   socialMedia: yup.object({
-    instagram: yup.string().url("Instagram inválido").nullable(),
-    facebook: yup.string().url("Facebook inválido").nullable(),
+    instagram: yup.string().url("Instagram inválido").nullable().optional(),
+    facebook: yup.string().url("Facebook inválido").nullable().optional(),
     whatsapp: yup
       .string()
       .matches(/^\+?[\d\s\-]{7,15}$/, "WhatsApp inválido")
-      .nullable(),
-  }),
+      .nullable()
+      .optional(),
+  }).optional(),
 });
 
 export const newUserSchema = yup.object({
