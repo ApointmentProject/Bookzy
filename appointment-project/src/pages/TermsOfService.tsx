@@ -43,7 +43,7 @@ import {
   CONTACT_SECTION,
   FOOTER_LINKS,
   FOOTER_TEXT,
-} from "../constants/termsOfService/termsOfService.constants"
+} from "../constants/terms/termsOfService.constants"
 
 export default function TermsOfService() {
   const { isDarkMode } = useTheme();
