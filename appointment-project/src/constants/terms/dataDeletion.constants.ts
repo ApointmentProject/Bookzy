@@ -36,9 +36,9 @@ export const TABLE_OF_CONTENTS: TableOfContentItem[] = [
 
 // Información general
 export const GENERAL_INFO = {
-  lastUpdate: "15 de febrero de 2024",
+  lastUpdate: "28 de Julio de 2025",
   version: "1.0",
-  effectiveDate: "15 de febrero de 2024",
+  effectiveDate: "28 de Julio de 2025",
 };
 
 // Textos del Hero
@@ -141,7 +141,7 @@ export const CONFIRMATION_SECTION = {
     },
     intro: "Al eliminar tus datos:",
     losses: {
-      title: "❌ Perderás",
+      title: "✗ Perderás",
       items: [
         "Acceso permanente a tu cuenta",
         "Todas tus reservas pasadas y futuras",
@@ -150,7 +150,7 @@ export const CONFIRMATION_SECTION = {
       ],
     },
     guarantees: {
-      title: "✅ Garantizamos",
+      title: "✓ Licencia Otorgada a Usuarios",
       items: [
         "Eliminación completa de datos personales",
         "Confirmación por email del proceso",
@@ -194,7 +194,7 @@ export const CONTACT_SECTION = {
     {
       icon: FiMapPin,
       title: "Horario de Atención",
-      lines: ["Lunes a Viernes: 9:00 - 18:00", "Zona horaria: GMT-6 (México)"],
+      lines: ["Lunes a Viernes: 9:00 - 18:00", "Zona horaria: GMT-6 (Costa Rica)"],
     },
   ],
   importantNote: "Este canal está dedicado exclusivamente a solicitudes de eliminación de datos. Para otras consultas, utiliza nuestros canales de soporte general.",

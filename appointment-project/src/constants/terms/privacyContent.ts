@@ -14,7 +14,7 @@ export const HERO = {
     "En Bookzy, nuestra prioridad es proteger la información que compartes con nosotros. A continuación, describimos cómo manejamos, almacenamos y protegemos tus datos.",
 };
 
-export const LAST_UPDATED = "15 de febrero de 2024";
+export const LAST_UPDATED = "28 de Julio de 2025";
 
 export const BREADCRUMBS = [
   { text: "Inicio", isActive: false },
