@@ -6,6 +6,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy'
 import DataDeletion from './pages/DataDeletion'
 import About from './pages/About'
 import AdminDashboard from './pages/AdminDashboard'
+import TermsOfService from './pages/TermsOfService'
 
 export default function Routing() {
   return (
@@ -17,6 +18,7 @@ export default function Routing() {
         <Route path="/terms" element={<TermsAndPolitics />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path="/data-deletion" element={<DataDeletion />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/about" element={<About />} />
       </Routes>
     </Router>

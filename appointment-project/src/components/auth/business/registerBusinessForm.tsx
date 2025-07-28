@@ -18,6 +18,7 @@ import { BusinessFormData } from "./registerBusiness.types";
 import { useToast } from "../../../context/ToastContext";
 import { registerBusiness } from "../../../services/business/businessBackend";
 import { useEffect } from "react";
+import { useBusiness } from "../../../context/BusinessContext";
 
 export function RegisterBusinessForm() {
   const { isDarkMode } = useTheme();
@@ -58,6 +59,7 @@ export function RegisterBusinessForm() {
     handleSubmit,            // <- handleSubmit propio de businessForm
   } = businessForm;
   const { addToast } = useToast()
+  const { setBusiness } = useBusiness();
 
 
   /* ---- sincróniza selects externos con RHF ---- */
@@ -87,7 +89,28 @@ export function RegisterBusinessForm() {
     submitAllForms(async (data) => {
       try {
         const response = await registerBusiness(data);
+
         if (response.success) {
+          const businessData = response.data.business;
+
+          setBusiness({
+            id: businessData.id,
+            businessName: businessData.business_name,
+            businessSlug: businessData.business_slug,
+            categoryId: businessData.category_id,
+            phoneNumber: businessData.phone_number,
+            email: businessData.email,
+            address: businessData.address,
+            province: businessData.province,
+            canton: businessData.canton,
+            district: businessData.district,
+            description: businessData.description || "",
+            isActive: true, // Puedes traer esto del backend si lo incluyes
+            isVerified: false, // Igual que arriba
+            createdAt: businessData.created_at,
+            updatedAt: businessData.updated_at,
+          });
+
           addToast({
             type: "success",
             title: "Negocio registrado",
@@ -106,7 +129,7 @@ export function RegisterBusinessForm() {
       }
     });
 
-      // Para evitar selección doble de canton/distrito
+  // Para evitar selección doble de canton/distrito
   useEffect(() => {
     if (selectedProvince) setValue("province", selectedProvince);
   }, [selectedProvince, setValue]);
